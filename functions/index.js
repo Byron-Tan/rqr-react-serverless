@@ -10,23 +10,33 @@ const auth = require("./util/auth");
 // });
 
 //Users
-const { loginUser, signUpUser, uploadProfilePhoto } = require("./APIs/users");
+const {
+  loginUser,
+  signUpUser,
+  uploadProfilePhoto,
+  getUserDetails,
+  updateUserDetails,
+} = require("./APIs/users");
 
 app.post("/login", loginUser);
 app.post("/signup", signUpUser);
 app.post("/user/image", auth, uploadProfilePhoto);
+app.get("/user", auth, getUserDetails);
+app.post("/user", auth, updateUserDetails);
 
 //Goal Setting
 const {
   getGoals,
+  getOneGoal,
   postNewWeeklyGoal,
   deleteGoal,
   editGoal,
 } = require("./APIs/goals");
 
-app.get("/goals", getGoals);
-app.post("/goal", postNewWeeklyGoal);
-app.delete("/goal/:goalID", deleteGoal);
-app.put("/goal/:goalId", editGoal);
+app.get("/goals", auth, getGoals);
+app.get("/goal", auth, getOneGoal);
+app.post("/goal", auth, postNewWeeklyGoal);
+app.delete("/goal/:goalID", auth, deleteGoal);
+app.put("/goal/:goalId", auth, editGoal);
 
 exports.api = functions.https.onRequest(app);

@@ -176,3 +176,36 @@ exports.uploadProfilePhoto = (request, response) => {
   });
   busboy.end(request.rawBody);
 };
+
+exports.getUserDetails = (request, response) => {
+  let userData = {};
+  db.doc(`/users/${request.user.username}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        userData.userCredentials = doc.data();
+        return response.json(userData);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      return response.status(500).json({ error: error.code });
+    });
+};
+
+//Here we are using the firebase update method, this uses the same procedure request as get user details
+// the only change is that we post body in the request and set the method as post
+exports.updateUserDetails = (request, response) => {
+  let document = db.collection("users").doc(`${request.user.username}`);
+  document
+    .update(request.body)
+    .then(() => {
+      response.json({ message: "Updated successfully" });
+    })
+    .catch((error) => {
+      console.error(error);
+      return response.status(500).json({
+        message: error,
+      });
+    });
+};

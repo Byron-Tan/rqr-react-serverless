@@ -2,6 +2,7 @@ const { db } = require("../util/admin");
 
 exports.getGoals = (request, response) => {
   db.collection("goals")
+    .where("username", "==", request.user.username)
     .orderBy("createdAt", "desc")
     .get()
     .then((data) => {
@@ -22,6 +23,27 @@ exports.getGoals = (request, response) => {
     });
 };
 
+exports.getOneGoal = (request, response) => {
+  db.doc(`/goal/$request.params.goalId`)
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        return response.status(404).json({
+          error: "Goal not found",
+        });
+      }
+      if (doc.data().username !== request.user.username) {
+        return response.status(403).json({ error: "UnAuthorized" });
+      }
+      goalData = doc.data();
+      goalData.goalId = doc.id;
+      return response.json(GoalData);
+    })
+    .catch((err) => {
+      console.error(err);
+      return response.status(500).json({ error: error.code });
+    });
+};
 exports.postNewWeeklyGoal = (request, response) => {
   if (request.body.weeklyGoal === "") {
     return response.status(400).json({ body: "Weekly Goal must not be empty" });
@@ -49,6 +71,7 @@ exports.postNewWeeklyGoal = (request, response) => {
   }
 
   const newWeeklyGoal = {
+    username: request.user.username,
     weeklyGoal: request.body.weeklyGoal,
     weeklyObjectives: request.body.weeklyObjectives,
     weeklyReward: request.body.weeklyReward,
@@ -73,6 +96,9 @@ exports.deleteGoal = (request, response) => {
     .get()
     .then((data) => {
       if (!data.exists) {
+        if (doc.data().username !== request.user.username) {
+          return response.status(403).json({ error: "UnAuthorized" });
+        }
         return response.status(404).json({ error: doc });
       }
       return document.delete();
