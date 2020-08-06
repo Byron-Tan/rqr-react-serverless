@@ -40,7 +40,7 @@ exports.loginUser = (request, response) => {
 //we then store the user credentials in the database.
 exports.signUpUser = (request, response) => {
   const newUser = {
-    userName: request.body.userName,
+    username: request.body.username,
     firstName: request.body.firstName,
     lastName: request.body.lastName,
     email: request.body.email,
@@ -57,7 +57,7 @@ exports.signUpUser = (request, response) => {
   if (!valid) return respoonse.status(400).json(errors);
 
   let token, userId;
-  db.doc(`/users/${newUser.userName}`)
+  db.doc(`/users/${newUser.username}`)
     .get()
     .then((doc) => {
       if (doc.exists) {
@@ -70,10 +70,15 @@ exports.signUpUser = (request, response) => {
           .createUserWithEmailAndPassword(newUser.email, newUser.password);
       }
     })
+    .then((data) => {
+      userId = data.user.uid;
+      return data.user.getIdToken();
+    })
     .then((idtoken) => {
       token = idtoken;
+      id = userId;
       const userCredentials = {
-        userName: newUser.userName,
+        username: newUser.username,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
@@ -82,8 +87,10 @@ exports.signUpUser = (request, response) => {
         driversLicense: newUser.driversLicense,
         car: newUser.car,
         description: newUser.description,
+        createdAt: new Date().toISOString(),
+        userId,
       };
-      return db.doc(`/users/${newUser.userName}`).set(userCredentials);
+      return db.doc(`/users/${newUser.username}`).set(userCredentials);
     })
     .then(() => {
       return response.status(201).json({ token });
@@ -111,6 +118,7 @@ deleteImage = (imageName) => {
       return;
     })
     .catch((error) => {
+      console.error(error);
       return;
     });
 };
@@ -118,6 +126,7 @@ deleteImage = (imageName) => {
 //using busboy to handle upload docs here https://github.com/mscdex/busboy#readme
 // w3 schools on file system(fs) module https://www.w3schools.com/nodejs/nodejs_filesystem.asp
 // mimetype https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+// Upload profile picture
 exports.uploadProfilePhoto = (request, response) => {
   const BusBoy = require("busboy");
   const path = require("path");
@@ -130,7 +139,7 @@ exports.uploadProfilePhoto = (request, response) => {
 
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
     if (mimetype !== "image/png" && mimetype !== "image/jpeg") {
-      return response.status(400).json({ error: "Wrong file type submitted" });
+      return response.status(400).json({ error: "Wrong file type submited" });
     }
     const imageExtension = filename.split(".")[filename.split(".").length - 1];
     imageFileName = `${request.user.username}.${imageExtension}`;
@@ -153,6 +162,17 @@ exports.uploadProfilePhoto = (request, response) => {
       })
       .then(() => {
         const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
+        return db.doc(`/users/${request.user.username}`).update({
+          imageUrl,
+        });
+      })
+      .then(() => {
+        return response.json({ message: "Image uploaded successfully" });
+      })
+      .catch((error) => {
+        console.error(error);
+        return response.status(500).json({ error: error.code });
       });
   });
+  busboy.end(request.rawBody);
 };

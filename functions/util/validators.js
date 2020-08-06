@@ -28,7 +28,7 @@ exports.validateSignUpData = (data) => {
     errors.email = "Must be valid email address";
   }
 
-  if (isEmpty(data.userName)) errors.userName = "Must not be empty";
+  if (isEmpty(data.username)) errors.username = "Must not be empty";
   if (isEmpty(data.firstName)) errors.firstName = "Must not be empty";
   if (isEmpty(data.lastName)) errors.lastName = "Must not be empty";
   if (isEmpty(data.dateOfBirth)) errors.dateOfBirth = "Must not be empty";

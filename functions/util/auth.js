@@ -1,6 +1,5 @@
 const { admin, db } = require("./admin");
 
-// Calling firebase verifyIdToken module to verify the token, decode the user details and passing them in the existing request.
 module.exports = (request, response, next) => {
   let idToken;
   if (
@@ -15,8 +14,8 @@ module.exports = (request, response, next) => {
   admin
     .auth()
     .verifyIdToken(idToken)
-    .then((decodeToken) => {
-      request.user = decodeToken;
+    .then((decodedToken) => {
+      request.user = decodedToken;
       return db
         .collection("users")
         .where("userId", "==", request.user.uid)
@@ -25,7 +24,7 @@ module.exports = (request, response, next) => {
     })
     .then((data) => {
       request.user.username = data.docs[0].data().username;
-      request.user.imageUrl = data.docs[0].data(I).imageUrl;
+      request.user.imageUrl = data.docs[0].data().imageUrl;
       return next();
     })
     .catch((err) => {
