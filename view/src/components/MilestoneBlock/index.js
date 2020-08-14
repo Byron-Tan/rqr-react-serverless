@@ -33,7 +33,7 @@ const MilestoneBlock = () => {
 };
 
 // <CounterWrapper>
-//   {counterItems.map(item => (
+//   {counterItems.map((item) => (
 //     <CounterItem key={`counter_key${item.id}`}>
 //       <Heading as="h3" content={item.amount} />
 //       <Text content={item.title} />

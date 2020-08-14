@@ -49,8 +49,8 @@ export default () => {
           <PromotionBlock />
           <MapSection />
           <ClientBlock />
+          <Footer />
         </ContentWrapper>
-        <Footer />
       </CharityWrapper>
       {/* End of charity wrapper section */}
     </ThemeProvider>
