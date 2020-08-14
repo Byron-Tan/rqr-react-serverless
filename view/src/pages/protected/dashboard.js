@@ -18,7 +18,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import withStyles from "@material-ui/core/styles/withStyles";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import NotesIcon from "@material-ui/icons/Notes";
-import Avatar from "@material-ui/core/avatar";
+// import Avatar from "@material-ui/core/avatar";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/Alert";
@@ -161,10 +161,10 @@ class dashboard extends Component {
             <div className={classes.toolbar} />
             <Divider />
             <center>
-              <Avatar
+              {/* <Avatar
                 src={this.state.profilePicture}
                 className={classes.avatar}
-              />
+              /> */}
               <p>
                 {" "}
                 {this.state.firstName} {this.state.lastName}

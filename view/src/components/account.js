@@ -4,7 +4,16 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import FieldInputs from './FieldInputs'
+import FieldInputsEmployement from './FieldInputsEmployement'
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import IconButton from "@material-ui/core/IconButton";
 
+import FieldsPreviousEmployement from './fieldsPreviousEmployement'
 import {
   Card,
   CardActions,
@@ -15,6 +24,8 @@ import {
   TextField,
   MenuItem,
 } from "@material-ui/core";
+import Slider from '@material-ui/core/Slider';
+import { makeStyles } from '@material-ui/core/styles';
 
 import clsx from "clsx";
 
@@ -32,18 +43,33 @@ const styles = (theme) => ({
   details: {
     display: "flex",
   },
+  width100: {
+    width: '100% !important'
+  },
   avatar: {
     height: 110,
     width: 100,
     flexShrink: 0,
     flexGrow: 0,
   },
+  marginTop15px: {
+    marginTop: '15px'
+  },
   locationText: {
     paddingLeft: "15px",
   },
+  padding15px: '15px',
   buttonProperty: {
     position: "absolute",
     top: "50%",
+  },
+  section2: {
+    width: '100%',
+    margin: theme.spacing(2),
+  },
+  section6: {
+    width: '50%',
+    margin: theme.spacing(2),
   },
   uiProgess: {
     position: "fixed",
@@ -81,10 +107,22 @@ class account extends Component {
       phoneNumber: "",
       username: "",
       profilePicture: "",
+      mobile: '',
       address: "",
       addresses: [],
       educationLevel: "",
+      communication: '',
+      self_confidence: '',
+      teamwork: '',
+      leadership: '',
+      self_motivation: '',
       educationInstitution: "",
+      looking_to_achieve_role: '',
+      goals_achieve_from_career: '',
+      hobbies: '',
+      fields: [{ date: "", college_name: "", certification_gained: '' }],
+      fieldsEmployement: [{ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '', notice_required: '' }],
+      fieldsPreviousEmployement: [{ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '' }],
       educationDate: "",
       employment: [
         {
@@ -95,12 +133,16 @@ class account extends Component {
           leaveReason: "",
         },
       ],
+      available_start_date: '',
+      australian_resident: 'yes',
+      vehicle_owner: 'yes',
+      current_work_visa: 'yes',
       workVisa: "",
       visaType: "",
       visaExpiry: "",
       howDidYouHearAboutUs: "",
       vehicleOwner: "",
-      criminalConvictions: "",
+      criminalConvictions: "no",
       dataAvailable: "",
       communication: "",
       selfConfidence: "",
@@ -108,7 +150,9 @@ class account extends Component {
       achievement: "",
       goals: "",
       interests: "",
+      type: '',
       priorities: [],
+      expiryDate: '',
       professionalReference: {
         fullName: "",
         contactNumber: "",
@@ -164,6 +208,39 @@ class account extends Component {
       image: event.target.files[0],
     });
   };
+
+  valuetext = (value) => {
+    return `${value}°C`;
+  }
+
+  valuetextCommunication = (value) => {
+    this.setState({
+      communication: value,
+    });
+    return `${value}°C`;
+  }
+
+  // valuetextSelfConfidence = (value) => {
+  //   this.setState({
+  //     self_confidence: value,
+  //   });
+  // }
+  // valuetextTeamWork = (value) => {
+  //   this.setState({
+  //     teamwork: value,
+  //   });
+  // }
+  // valuetextLeaderShip = (value) => {
+  //   this.setState({
+  //     leadership: value,
+  //   });
+  // }
+
+  // valuetextSelfMotivation = (value) => {
+  //   this.setState({
+  //     self_motivation: value,
+  //   });
+  // }
 
   handleEmploymentChange = (e) => {
     if (["date", "employer", "position"].includes(e.target.className)) {
@@ -223,7 +300,62 @@ class account extends Component {
       });
   };
 
+  addFields = () => {
+    let objArr = [...this.state.fields]
+    objArr.push({ date: "", college_name: "", certification_gained: '' })
+    this.setState({
+      fields: objArr
+    })
+  }
+
+  addFieldsEmployement = () => {
+    let objArr = [...this.state.fieldsEmployement]
+    objArr.push({ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '', notice_required: '' })
+    this.setState({
+      fieldsEmployement: objArr
+    })
+  }
+
+  addFieldsPreviousEmployement = () => {
+    let objArr = [...this.state.fieldsPreviousEmployement]
+    objArr.push({ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '' })
+    this.setState({
+      fieldsPreviousEmployement: objArr
+    })
+  }
+
+  setFieldNameFun = (value, index) => {
+    let obj = [...this.state.fields]
+    obj[index].extraction_field_name = value
+    this.setState({
+      fields: obj
+    })
+    console.log('index in set field name', index)
+    console.log('value in set field name', value)
+  }
+
+  setFieldNameEmployementFun = (value, index) => {
+    let obj = [...this.state.fieldsEmployement]
+    obj[index].extraction_field_name = value
+    this.setState({
+      fieldsEmployement: obj
+    })
+    console.log('index in set field name', index)
+    console.log('value in set field name', value)
+  }
+
+  setFieldNamePreviousEmployementFun = (value, index) => {
+    let obj = [...this.state.fieldsPreviousEmployement]
+    obj[index].extraction_field_name = value
+    this.setState({
+      fieldsPreviousEmployement: obj
+    })
+    console.log('index in set field name', index)
+    console.log('value in set field name', value)
+  }
+
   updateFormValues = (event) => {
+    console.log(this.state)
     event.preventDefault();
     this.setState({ buttonLoading: true });
     authMiddleWare(this.props.history);
@@ -296,8 +428,8 @@ class account extends Component {
                       Wrong Image Format || Supported Format are PNG and JPG
                     </div>
                   ) : (
-                    false
-                  )}
+                      false
+                    )}
                 </div>
               </div>
               <div className={classes.progress} />
@@ -333,6 +465,153 @@ class account extends Component {
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextField
+
+                      required
+                      fullWidth
+                      name="dateOfBirth"
+                      label="Date of Birth"
+                      type="date"
+                      id="dateOfBirth"
+                      defaultValue="2017-05-24"
+                      onChange={this.handleChange}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6} md={6}>
+                    <GoogleMaps
+                      value={this.state.address}
+                      onChange={this.handleChange}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Home Phone"
+                      margin="dense"
+                      name="phone"
+                      type="number"
+                      value={this.state.phoneNumber}
+                      onChange={this.handleChange}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Mobile"
+                      margin="dense"
+                      name="mobile"
+                      type="number"
+                      value={this.state.mobile}
+                      onChange={this.handleChange}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Email"
+                      margin="dense"
+                      name="email"
+                      disabled={true}
+                      value={this.state.email}
+                      onChange={this.handleChange}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      margin="dense"
+                      select
+                      label="How Did You Hear About Us?"
+                      name="howDidYouHearAboutUs"
+                      value={this.state.howDidYouHearAboutUs}
+                      onChange={this.handleChange}
+                    >
+                      <MenuItem key="1" value="Word Of Mouth">
+                        Word Of Mouth
+                      </MenuItem>
+                      <MenuItem key="2" value="Online Recruitment Add">
+                        Online Recruitment Add
+                      </MenuItem>
+                      <MenuItem key="3" value="Search Engine">
+                        Search Engine
+                      </MenuItem>
+                    </TextField>
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <FormLabel component="legend">Australian resident</FormLabel>
+                    <RadioGroup aria-label="Australian resident" name="australian_resident" value={this.state.australian_resident} onChange={this.handleChange}>
+                      <FormControlLabel value="female" control={<Radio />} label="Yes" />
+                      <FormControlLabel value="male" control={<Radio />} label="No" />
+                    </RadioGroup>
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <FormLabel component="legend">Vehicle owner</FormLabel>
+                    <RadioGroup aria-label="Vehicle owner" name="vehicle_owner" value={this.state.vehicle_owner} onChange={this.handleChange}>
+                      <FormControlLabel value="female" control={<Radio />} label="Yes" />
+                      <FormControlLabel value="male" control={<Radio />} label="No" />
+                    </RadioGroup>
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <FormLabel component="legend">If no,do you have a current work visa?</FormLabel>
+                    <RadioGroup aria-label="Vehicle owner" name="current_work_visa" value={this.state.current_work_visa} onChange={this.handleChange}>
+                      <FormControlLabel value="female" control={<Radio />} label="Yes" />
+                      <FormControlLabel value="male" control={<Radio />} label="No" />
+                    </RadioGroup>
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <FormLabel component="legend">Criminal convitions</FormLabel>
+                    <RadioGroup aria-label="Vehicle owner" name="criminalConvictions" value={this.state.criminalConvictions} onChange={this.handleChange}>
+                      <FormControlLabel value="female" control={<Radio />} label="Yes" />
+                      <FormControlLabel value="male" control={<Radio />} label="No" />
+                    </RadioGroup>
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Type"
+                      margin="dense"
+                      name="type"
+                      value={this.state.type}
+                      onChange={this.handleChange}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+
+                      required
+                      fullWidth
+                      name="expiryDate"
+                      label="Date of expiry"
+                      type="date"
+                      id="expiryDate"
+                      defaultValue="2017-05-24"
+                      onChange={this.handleChange}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+
+                      required
+                      fullWidth
+                      name="available_start_date"
+                      label="Date avalible to start"
+                      type="date"
+                      id="available_start_date"
+                      defaultValue="2017-05-24"
+                      onChange={this.handleChange}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Grid>
+                  {/*                   
+                  <Grid item md={6} xs={12}>
+                    <TextField
                       fullWidth
                       label="Email"
                       margin="dense"
@@ -364,27 +643,7 @@ class account extends Component {
                       onChange={this.handleChange}
                     />
                   </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      margin="dense"
-                      select
-                      label="How Did You Hear About Us?"
-                      name="howDidYouHearAboutUs"
-                      value={this.state.howDidYouHearAboutUs}
-                      onChange={this.handleChange}
-                    >
-                      <MenuItem key="1" value="Word Of Mouth">
-                        Word Of Mouth
-                      </MenuItem>
-                      <MenuItem key="2" value="Online Recruitment Add">
-                        Online Recruitment Add
-                      </MenuItem>
-                      <MenuItem key="3" value="Search Engine">
-                        Search Engine
-                      </MenuItem>
-                    </TextField>
-                  </Grid>
+
                   <Grid item xs={12} md={12}>
                     <GoogleMaps
                       value={this.state.address}
@@ -414,8 +673,8 @@ class account extends Component {
                         Other
                       </MenuItem>
                     </TextField>
-                  </Grid>
-                  <Grid item md={4} xs={12}>
+                  </Grid> */}
+                  {/* <Grid item md={4} xs={12}>
                     <TextField
                       fullWidth
                       label="Institution"
@@ -439,11 +698,203 @@ class account extends Component {
                         shrink: true,
                       }}
                     />
-                  </Grid>
-                  <Divider />
-                  <Typography margin="dense" align="center" display="inline">
-                    Employment History
-                  </Typography>
+                  </Grid> */}
+                  <Grid item md={12} xs={12}></Grid>
+                  <div md={12} xs={12} className={classes.section2}>
+                    <Card className={classes.width100} variant="outlined">
+                      <CardContent>
+                        <Typography className='padding-12px' margin="dense" align="center" display="inline">
+                          Education <IconButton
+                            className={classes.floatingButton}
+                            color="primary"
+                            aria-label="Add Goal"
+                            onClick={this.addFields}
+                          >
+                            <AddCircleIcon style={{ fontSize: 60 }} />
+                          </IconButton>
+                        </Typography>
+                        <Divider />
+                        <FieldInputs className={classes.section2} addField={this.addFields} setFieldName={this.setFieldNameFun} fields={this.state.fields} />
+                      </CardContent>
+                    </Card>
+
+                  </div>
+
+                  <div md={12} xs={12} className={classes.section2}>
+                    <Card className={classes.width100} variant="outlined">
+                      <CardContent>
+                        <Typography className='padding-12px' margin="dense" align="center" display="inline">
+                          Employment History
+                        </Typography>
+                        <Divider />
+                        <FieldInputsEmployement className={classes.padding15px} addField={this.addFieldsEmployement} setFieldName={this.setFieldNameEmployementFun} fields={this.state.fieldsEmployement} />
+                      </CardContent>
+                    </Card>
+
+                  </div>
+
+                  <div md={12} xs={12} className={classes.section2}>
+                    <Card className={classes.width100} variant="outlined">
+                      <CardContent>
+                        <Typography className='padding-12px' margin="dense" align="center" display="inline">
+                          Previous work status <IconButton
+                            className={classes.floatingButton}
+                            color="primary"
+                            aria-label="Add Goal"
+                            onClick={this.addFieldsPreviousEmployement}
+                          >
+                            <AddCircleIcon style={{ fontSize: 60 }} />
+                          </IconButton>
+                        </Typography>
+                        <Divider />
+                        <FieldsPreviousEmployement addField={this.addFieldsPreviousEmployement} setFieldName={this.setFieldNamePreviousEmployementFun} fields={this.state.fieldsPreviousEmployement} />
+
+                      </CardContent>
+                    </Card>
+
+                  </div>
+
+                  <Card className={classes.width100, classes.section6} variant="outlined">
+                    <CardContent>
+                      <Typography className='padding-12px' margin="dense" align="center" display="inline">
+                        Please rate yourself on following skills and characteristics.
+                        </Typography>
+                      <Divider />
+                      <Grid container spacing={3}>
+
+                        <Grid item md={12} xs={12}>
+                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                            Communication
+                    </Typography>
+                          <Slider
+                            margin="dense"
+                            name='communication'
+                            defaultValue={10}
+                            getAriaValueText={this.valuetext}
+                            aria-labelledby="discrete-slider-small-steps"
+                            step={1}
+                            marks
+                            min={1}
+                            max={100}
+                            valueLabelDisplay="auto"
+                          />
+                        </Grid>
+
+                        <Grid item md={12} xs={12}>
+                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                            Self confidence
+                    </Typography>
+                          <Slider
+                            margin="dense"
+                            name='self_confidence'
+                            defaultValue={10}
+                            getAriaValueText={this.valuetext}
+                            aria-labelledby="discrete-slider-small-steps"
+                            step={1}
+                            marks
+                            min={1}
+                            max={100}
+                            valueLabelDisplay="auto"
+                          />
+                        </Grid>
+                        <Grid item md={12} xs={12}>
+                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                            Team work
+                    </Typography>
+                          <Slider
+                            margin="dense"
+                            name='team_work'
+                            defaultValue={10}
+                            getAriaValueText={this.valuetext}
+                            aria-labelledby="discrete-slider-small-steps"
+                            step={1}
+                            marks
+                            min={1}
+                            max={100}
+                            valueLabelDisplay="auto"
+                          />
+                        </Grid>
+                        <Grid item md={12} xs={12}>
+                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                            Leadership
+                    </Typography>
+                          <Slider
+                            margin="dense"
+                            name='leadership'
+                            defaultValue={10}
+                            getAriaValueText={this.valuetext}
+                            aria-labelledby="discrete-slider-small-steps"
+                            step={1}
+                            marks
+                            min={1}
+                            max={100}
+                            valueLabelDisplay="auto"
+                          />
+                        </Grid>
+                        <Grid item md={12} xs={12}>
+                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                            Self motivation
+                    </Typography>
+                          <Slider
+                            margin="dense"
+                            name='self_motivation'
+                            defaultValue={10}
+                            getAriaValueText={this.valuetext}
+                            aria-labelledby="discrete-slider-small-steps"
+                            step={1}
+                            marks
+                            min={1}
+                            max={100}
+                            valueLabelDisplay="auto"
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+
+                  <Card className={classes.width100, classes.section2} variant="outlined">
+                    <CardContent>
+                      <Typography className='padding-12px' margin="dense" align="center" display="inline">
+                        Personal
+                        </Typography>
+                      <Divider />
+
+                      <Grid container spacing={3}>
+
+                        <Grid item md={8} xs={12}>
+                          <TextField
+                            fullWidth
+                            label="What are you looking to achieve from this role?"
+                            margin="dense"
+                            name="looking_to_achieve_role"
+                            value={this.state.looking_to_achieve_role}
+                            onChange={this.handleChange}
+                          />
+
+                        </Grid>
+                        <Grid item md={8} xs={12}>
+                          <TextField
+                            fullWidth
+                            label="What goals/ambitions do you aim to achieve from your career?"
+                            margin="dense"
+                            name="goals_achieve_from_career"
+                            value={this.state.goals_achieve_from_career}
+                            onChange={this.handleChange}
+                          />
+                        </Grid>
+                        <Grid item md={8} xs={12}>
+                          <TextField
+                            fullWidth
+                            label="What are your personal interest and hobbies?"
+                            margin="dense"
+                            name="hobbies"
+                            value={this.state.hobbies}
+                            onChange={this.handleChange}
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
                   <CardActions />
                 </Grid>
               </CardContent>
