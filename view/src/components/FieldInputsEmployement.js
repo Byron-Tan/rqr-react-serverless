@@ -29,8 +29,6 @@ const useStyles = makeStyles({
 
 
 const CatInputs = (props) => {
-    console.log(props)
-
     const clickButton = () => {
         props.addField();
     }
@@ -50,19 +48,19 @@ const CatInputs = (props) => {
         props.addBtnConfiguration(index)
     }
 
-    const changeHandlerFieldName = (event, inde) => {
-        props.setFieldName(event.target.value, inde)
+    const changeHandlerFieldName = (event, name, inde) => {
+        props.setFieldName(event.target.value, name, inde)
     }
 
     return (
         props.fields.map((val, idx) => {
+            console.log(val)
             let dateId = `date-${idx}`,
                 employer = `employer-${idx}`,
                 position_of_contractor = `position_of_contractor-${idx}`,
                 reason_for_leaving = `reason_for_leaving-${idx}`,
                 notice_required = `notice_required-${idx}`,
                 salary = `salary-${idx}`
-            console.log('val', 'val in fieldinput')
             return (
                 // <FuseAnimate animation="transition.expandIn" delay={300}>
                 <Grid container spacing={3} className='mt-3' className='margin-top-15px'>
@@ -78,7 +76,7 @@ const CatInputs = (props) => {
                             type="date"
                             id={dateId}
                             defaultValue="2017-05-24"
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
+                            onChange={((e) => { changeHandlerFieldName(e, 'date', idx) })}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -87,10 +85,11 @@ const CatInputs = (props) => {
                     </Grid>
                     <Grid item md={4} xs={12}>
                         <TextField
+                            fullWidth
                             className="mb-24"
                             label="Employer"
                             id={employer}
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
+                            onChange={((e) => { changeHandlerFieldName(e, 'employer', idx) })}
                             name={employer}
                             data-id={idx}
                             variant="outlined"
@@ -98,10 +97,11 @@ const CatInputs = (props) => {
                     </Grid>
                     <Grid item md={4} xs={12}>
                         <TextField
+                            fullWidth
                             className="mb-24"
                             label="Salary"
                             id={salary}
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
+                            onChange={((e) => { changeHandlerFieldName(e, 'salary', idx) })}
                             name={salary}
                             data-id={idx}
                             variant="outlined"
@@ -109,10 +109,11 @@ const CatInputs = (props) => {
                     </Grid>
                     <Grid item md={4} xs={12}>
                         <TextField
+                            fullWidth
                             className="mb-24"
                             label="Position of contractor"
                             id={position_of_contractor}
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
+                            onChange={((e) => { changeHandlerFieldName(e, 'position_of_contractor', idx) })}
                             name={position_of_contractor}
                             data-id={idx}
                             variant="outlined"
@@ -120,10 +121,11 @@ const CatInputs = (props) => {
                     </Grid>
                     <Grid item md={4} xs={12}>
                         <TextField
+                            fullWidth
                             className="mb-24"
                             label="Reason for leaving"
                             id={reason_for_leaving}
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
+                            onChange={((e) => { changeHandlerFieldName(e, 'reason_for_leaving', idx) })}
                             name={reason_for_leaving}
                             data-id={idx}
                             variant="outlined"
@@ -131,10 +133,11 @@ const CatInputs = (props) => {
                     </Grid>
                     <Grid item md={4} xs={12}>
                         <TextField
+                            fullWidth
                             className="mb-24"
                             label="Notice Required"
                             id={notice_required}
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
+                            onChange={((e) => { changeHandlerFieldName(e, 'notice_required', idx) })}
                             name={notice_required}
                             data-id={idx}
                             variant="outlined"

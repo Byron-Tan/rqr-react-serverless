@@ -6,6 +6,8 @@ import Icon from '@material-ui/core/Icon';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import Fab from '@material-ui/core/Fab';
 import { makeStyles } from '@material-ui/core/styles';
+import RemoveCircle from "@material-ui/icons/RemoveCircle";
+import IconButton from "@material-ui/core/IconButton";
 import './../App.css'
 
 import {
@@ -35,6 +37,13 @@ const CatInputs = (props) => {
         props.addField();
     }
 
+    const removeFieldsEmployementHistory = (event, index) => {
+        console.log(index)
+        event.preventDefault()
+
+        props.removeFieldsEmployementHistory(index)
+    }
+
     const clickButtonConfiguration = (event, index) => {
         event.preventDefault()
         props.addConfiguration(index)
@@ -50,8 +59,8 @@ const CatInputs = (props) => {
         props.addBtnConfiguration(index)
     }
 
-    const changeHandlerFieldName = (event, inde) => {
-        props.setFieldName(event.target.value, inde)
+    const changeHandlerFieldName = (event, name, inde) => {
+        props.setFieldName(event.target.value, name, inde)
     }
 
     return (
@@ -62,12 +71,13 @@ const CatInputs = (props) => {
                 reason_for_leaving = `reason_for_leaving-${idx}`,
                 notice_required = `notice_required-${idx}`,
                 salary = `salary-${idx}`
-            console.log('val', 'val in fieldinput')
             return (
                 // <FuseAnimate animation="transition.expandIn" delay={300}>
-                <Grid container spacing={3} className='mt-3' className='margin-top-15px'>
+                <div key={idx}>
 
-                    {/* <Grid item md={1} xs={12}>
+                    <Grid container spacing={3} className='mt-3' className='margin-top-15px'>
+
+                        {/* <Grid item md={1} xs={12}>
                         <Fab
                             color="primary"
                             aria-label="add"
@@ -77,69 +87,96 @@ const CatInputs = (props) => {
                             <Icon>add</Icon>
                         </Fab>
                     </Grid> */}
-                    <Grid item md={4} xs={12}>
-                        <TextField
+                        <Grid item md={4} xs={12}>
+                            <TextField
 
-                            required
-                            fullWidth
-                            name={dateId}
-                            data-id={idx}
-                            label="Date"
-                            type="date"
-                            id={dateId}
-                            defaultValue="2017-05-24"
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                                required
+                                fullWidth
+                                name={dateId}
+                                data-id={idx}
+                                label="Date"
+                                type="date"
+                                id={dateId}
+                                value={val.date}
+                                // defaultValue="2017-05-24"
+                                onChange={((e) => { changeHandlerFieldName(e, 'date', idx) })}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
 
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <TextField
+                                fullWidth
+                                className="mb-24"
+                                label="Employer"
+                                id={employer}
+                                value={val.employer}
+
+                                onChange={((e) => { changeHandlerFieldName(e, 'employer', idx) })}
+                                name={employer}
+                                data-id={idx}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <TextField
+                                fullWidth
+                                className="mb-24"
+                                label="Salary"
+                                id={salary}
+                                value={val.salary}
+
+                                onChange={((e) => { changeHandlerFieldName(e, 'salary', idx) })}
+                                name={salary}
+                                data-id={idx}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <TextField
+                                fullWidth
+                                className="mb-24"
+                                label="Position of contractor"
+                                id={position_of_contractor}
+                                value={val.position_of_contractor}
+
+                                onChange={((e) => { changeHandlerFieldName(e, 'position_of_contractor', idx) })}
+                                name={position_of_contractor}
+                                data-id={idx}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <TextField
+                                fullWidth
+                                className="mb-24"
+                                label="Reason for leaving"
+                                id={reason_for_leaving}
+                                value={val.reason_for_leaving}
+
+                                onChange={((e) => { changeHandlerFieldName(e, 'reason_for_leaving', idx) })}
+                                name={reason_for_leaving}
+                                data-id={idx}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        {
+                            idx !== 0 &&
+
+                            <Grid className='p-0px' item md={1} xs={3}>
+                                <IconButton
+                                    color="primary"
+                                    aria-label="Add Goal"
+                                    onClick={((e) => { removeFieldsEmployementHistory(e, idx) })}
+                                >
+                                    <RemoveCircle style={{ fontSize: 60 }} />
+                                </IconButton>
+                            </Grid>
+                        }
                     </Grid>
-                    <Grid item md={4} xs={12}>
-                        <TextField
-                            className="mb-24"
-                            label="Employer"
-                            id={employer}
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
-                            name={employer}
-                            data-id={idx}
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item md={4} xs={12}>
-                        <TextField
-                            className="mb-24"
-                            label="Salary"
-                            id={salary}
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
-                            name={salary}
-                            data-id={idx}
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item md={4} xs={12}>
-                        <TextField
-                            className="mb-24"
-                            label="Position of contractor"
-                            id={position_of_contractor}
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
-                            name={position_of_contractor}
-                            data-id={idx}
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item md={4} xs={12}>
-                        <TextField
-                            className="mb-24"
-                            label="Reason for leaving"
-                            id={reason_for_leaving}
-                            onChange={((e) => { changeHandlerFieldName(e, idx) })}
-                            name={reason_for_leaving}
-                            data-id={idx}
-                            variant="outlined"
-                        />
-                    </Grid>
-                </Grid>
+                </div>
                 // </FuseAnimate >
             )
         })

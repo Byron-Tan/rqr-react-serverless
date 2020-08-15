@@ -12,7 +12,7 @@ import FieldInputs from './FieldInputs'
 import FieldInputsEmployement from './FieldInputsEmployement'
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
-
+import FormControl from '@material-ui/core/FormControl';
 import FieldsPreviousEmployement from './fieldsPreviousEmployement'
 import {
   Card,
@@ -68,7 +68,7 @@ const styles = (theme) => ({
     margin: theme.spacing(2),
   },
   section6: {
-    width: '50%',
+    width: '100%',
     margin: theme.spacing(2),
   },
   uiProgess: {
@@ -135,6 +135,8 @@ class account extends Component {
       ],
       available_start_date: '',
       australian_resident: 'yes',
+      highest_education: 'cerificate',
+      highest_education_value: 'cerificate',
       vehicle_owner: 'yes',
       current_work_visa: 'yes',
       workVisa: "",
@@ -202,6 +204,10 @@ class account extends Component {
       [event.target.name]: event.target.value,
     });
   };
+
+  handleChangeHighestEducation = (event) => {
+
+  }
 
   handleImageChange = (event) => {
     this.setState({
@@ -324,9 +330,45 @@ class account extends Component {
     })
   }
 
-  setFieldNameFun = (value, index) => {
+  removeFields = (index) => {
     let obj = [...this.state.fields]
-    obj[index].extraction_field_name = value
+    console.log(index)
+    console.log('obj before slice', obj)
+    obj.splice(index, 1)
+    console.log('obj after slice', obj)
+
+    this.setState({
+      fields: obj
+    })
+    console.log('index of removed field', index)
+  }
+
+  removeFieldsEmployementHistory = (index) => {
+    let obj = [...this.state.fieldsPreviousEmployement]
+    console.log(index)
+    console.log('obj before slice', obj)
+    obj.splice(index, 1)
+    console.log('obj after slice', obj)
+
+    this.setState({
+      fieldsPreviousEmployement: obj
+    })
+    console.log('index of removed field', index)
+    console.log('index of removed field', index)
+  }
+
+  setFieldNameFun = (value, field_name, index) => {
+    let obj = [...this.state.fields]
+    if (field_name == 'date') {
+
+      obj[index].date = value
+    } else if (field_name == 'college_name') {
+      obj[index].college_name = value
+
+    } else {
+      obj[index].qualification_gained = value
+
+    }
     this.setState({
       fields: obj
     })
@@ -334,9 +376,31 @@ class account extends Component {
     console.log('value in set field name', value)
   }
 
-  setFieldNameEmployementFun = (value, index) => {
+  setFieldNameEmployementFun = (value, field_name, index) => {
     let obj = [...this.state.fieldsEmployement]
-    obj[index].extraction_field_name = value
+    if (field_name == 'date') {
+
+      obj[index].date = value
+    } else if (field_name == 'employer') {
+      obj[index].employer = value
+
+    } else if (field_name == 'position_of_contractor') {
+      obj[index].position_of_contractor = value
+
+    } else if (field_name == 'salary') {
+      obj[index].salary = value
+
+    } else if (field_name == 'notice_required') {
+      obj[index].notice_required = value
+
+    } else if (field_name == 'reason_for_leaving') {
+      obj[index].reason_for_leaving = value
+
+    } else {
+      obj[index].qualification_gained = value
+
+    }
+    // obj[index].extraction_field_name = value
     this.setState({
       fieldsEmployement: obj
     })
@@ -344,9 +408,27 @@ class account extends Component {
     console.log('value in set field name', value)
   }
 
-  setFieldNamePreviousEmployementFun = (value, index) => {
+  setFieldNamePreviousEmployementFun = (value, field_name, index) => {
     let obj = [...this.state.fieldsPreviousEmployement]
-    obj[index].extraction_field_name = value
+    if (field_name == 'date') {
+
+      obj[index].date = value
+    } else if (field_name == 'employer') {
+      obj[index].employer = value
+
+    } else if (field_name == 'position_of_contractor') {
+      obj[index].position_of_contractor = value
+
+    } else if (field_name == 'salary') {
+      obj[index].salary = value
+
+    } else if (field_name == 'reason_for_leaving') {
+      obj[index].reason_for_leaving = value
+
+    } else {
+      obj[index].qualification_gained = value
+
+    }
     this.setState({
       fieldsPreviousEmployement: obj
     })
@@ -714,7 +796,23 @@ class account extends Component {
                           </IconButton>
                         </Typography>
                         <Divider />
-                        <FieldInputs className={classes.section2} addField={this.addFields} setFieldName={this.setFieldNameFun} fields={this.state.fields} />
+                        <div className='education-title'>
+                          <div className='mr-10px'>
+                            Highest Education achieved:
+                          </div>
+
+                          <FormControl component="fieldset">
+                            <RadioGroup row name="highest_education" value={this.state.highest_education} defaultValue="certificate" onChange={this.handleChange}>
+                              <FormControlLabel value="certificate" control={<Radio color="primary" />} label="Certificate" />
+                              <FormControlLabel value="year12" control={<Radio color="primary" />} label="Year 12" />
+                              <FormControlLabel value="tafe" control={<Radio color="primary" />} label="TAFE" />
+                              <FormControlLabel value="Univercity" control={<Radio color="primary" />} label="Univercity" />
+                              <FormControlLabel value="other" control={<Radio color="primary" />} label="Other" />
+
+                            </RadioGroup>
+                          </FormControl>
+                        </div>
+                        <FieldInputs removeFields={this.removeFields} className={classes.section2} addField={this.addFields} setFieldName={this.setFieldNameFun} fields={this.state.fields} />
                       </CardContent>
                     </Card>
 
@@ -747,7 +845,7 @@ class account extends Component {
                           </IconButton>
                         </Typography>
                         <Divider />
-                        <FieldsPreviousEmployement addField={this.addFieldsPreviousEmployement} setFieldName={this.setFieldNamePreviousEmployementFun} fields={this.state.fieldsPreviousEmployement} />
+                        <FieldsPreviousEmployement removeFieldsEmployementHistory={this.removeFieldsEmployementHistory} addField={this.addFieldsPreviousEmployement} setFieldName={this.setFieldNamePreviousEmployementFun} fields={this.state.fieldsPreviousEmployement} />
 
                       </CardContent>
                     </Card>

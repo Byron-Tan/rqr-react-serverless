@@ -7,6 +7,9 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import Fab from '@material-ui/core/Fab';
 import { makeStyles } from '@material-ui/core/styles';
 import withStyles from "@material-ui/core/styles/withStyles";
+import RemoveCircle from "@material-ui/icons/RemoveCircle";
+import IconButton from "@material-ui/core/IconButton";
+
 import './../App.css'
 import {
     Card,
@@ -33,7 +36,7 @@ const CatInputs = (props) => {
             marginTop: '15px'
         },
     });
-    console.log(props)
+    // console.log(props)
     const classes = styles();
 
     const clickButton = () => {
@@ -50,24 +53,29 @@ const CatInputs = (props) => {
         props.runDebug(index)
     }
 
+    const removeFields = (event, index) => {
+        event.preventDefault()
+        console.log(index)
+        props.removeFields(index)
+    }
+
     const addButtonConfiguration = (event, index, indexConfigObj) => {
         event.preventDefault()
         props.addBtnConfiguration(index)
     }
 
-    const changeHandlerFieldName = (event, inde) => {
-        props.setFieldName(event.target.value, inde)
+    const changeHandlerFieldName = (event, field_name, inde) => {
+        props.setFieldName(event.target.value, field_name, inde)
     }
 
     return (
         props.fields.map((val, idx) => {
             let dateId = `date-${idx}`, collegeNameId = `college-Name-${idx}`, qualificationId = `qualification-${idx}`
-            console.log('val', 'val in fieldinput')
             return (
                 // <FuseAnimate animation="transition.expandIn" delay={300}>
-                <div >
+                <div key={idx}>
 
-                    <Grid className={classes.marginTop15px} container spacing={3} className='margin-top-15px'>
+                    <Grid className={classes.marginTop15px} container spacing={3} className='margin-top-15px align-item-center'>
 
                         <Grid item md={4} xs={12}>
                             <TextField
@@ -79,8 +87,9 @@ const CatInputs = (props) => {
                                 label="Date"
                                 type="date"
                                 id={dateId}
+                                value={val.date}
                                 defaultValue="2017-05-24"
-                                onChange={((e) => { changeHandlerFieldName(e, idx) })}
+                                onChange={((e) => { changeHandlerFieldName(e, 'date', idx) })}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -89,28 +98,46 @@ const CatInputs = (props) => {
                         </Grid>
                         <Grid item md={4} xs={12}>
                             <TextField
+                                fullWidth
                                 className="mb-24"
                                 label="College Name"
                                 id={collegeNameId}
-                                onChange={((e) => { changeHandlerFieldName(e, idx) })}
+                                value={val.college_name}
+                                onChange={((e) => { changeHandlerFieldName(e, 'college_name', idx) })}
                                 name={collegeNameId}
                                 data-id={idx}
                                 variant="outlined"
                             />
                         </Grid>
-                        <Grid item md={4} xs={12}>
+                        <Grid item md={3} xs={12}>
                             <TextField
+                                fullWidth
                                 className="mb-24"
                                 label="Qualification gained"
                                 id={qualificationId}
-                                onChange={((e) => { changeHandlerFieldName(e, idx) })}
+                                value={val.qualification_gained}
+
+                                onChange={((e) => { changeHandlerFieldName(e, 'qualification_gained', idx) })}
                                 name={qualificationId}
                                 data-id={idx}
                                 variant="outlined"
                             />
                         </Grid>
+                        {
+                            idx !== 0 &&
+                            < Grid className='p-0px' item md={1} xs={3}>
+                                <IconButton
+                                    className={classes.floatingButton}
+                                    color="primary"
+                                    aria-label="Add Goal"
+                                    onClick={((e) => { removeFields(e, idx) })}
+                                >
+                                    <RemoveCircle style={{ fontSize: 60 }} />
+                                </IconButton>
+                            </Grid>
+                        }
                     </Grid>
-                </div>
+                </div >
                 // </FuseAnimate >
             )
         })
