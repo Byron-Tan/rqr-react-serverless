@@ -14,6 +14,9 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
 import FormControl from '@material-ui/core/FormControl';
 import FieldsPreviousEmployement from './fieldsPreviousEmployement'
+import Container from './Container'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import {
   Card,
   CardActions,
@@ -434,6 +437,10 @@ class account extends Component {
     })
     console.log('index in set field name', index)
     console.log('value in set field name', value)
+  }
+
+  setCard = (cards) => {
+    console.log(cards)
   }
 
   updateFormValues = (event) => {
@@ -993,6 +1000,23 @@ class account extends Component {
                       </Grid>
                     </CardContent>
                   </Card>
+                  <div md={12} xs={12} className={classes.section2}>
+                    <Card className={classes.width100} variant="outlined">
+                      <CardContent>
+                        <Typography className='padding-12px' margin="dense" align="center" display="inline">
+                          What you are looking for in a job?(Number in order of importance - (1) being highest priority)
+                        </Typography>
+                        <Divider />
+                        <div className='margin-top-15px'>
+                          <DndProvider backend={HTML5Backend}>
+                            <Container setCardObj={this.setCard} />
+                          </DndProvider>
+                        </div>
+
+                      </CardContent>
+                    </Card>
+
+                  </div>
                   <CardActions />
                 </Grid>
               </CardContent>
