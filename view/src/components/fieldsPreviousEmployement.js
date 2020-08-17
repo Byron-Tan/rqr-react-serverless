@@ -1,41 +1,21 @@
 import React from "react"
-import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
-// import FuseAnimate from '@fuse/core/FuseAnimate';
-import Icon from '@material-ui/core/Icon';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import Fab from '@material-ui/core/Fab';
-import { makeStyles } from '@material-ui/core/styles';
+
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import IconButton from "@material-ui/core/IconButton";
 import './../App.css'
 
 import {
-    Card,
-    CardActions,
-    CardContent,
-    Divider,
-    Button,
     Grid,
-    MenuItem,
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
-    addButton: {
-        position: 'absolute',
-        right: 12,
-        bottom: 12,
-        zIndex: 99
-    }
-});
+
 
 
 const CatInputs = (props) => {
     console.log(props)
 
-    const clickButton = () => {
-        props.addField();
-    }
+
 
     const removeFieldsEmployementHistory = (event, index) => {
         console.log(index)
@@ -44,20 +24,7 @@ const CatInputs = (props) => {
         props.removeFieldsEmployementHistory(index)
     }
 
-    const clickButtonConfiguration = (event, index) => {
-        event.preventDefault()
-        props.addConfiguration(index)
-        props.addBtnConfiguration(index)
-    }
 
-    const runDebug = (index) => {
-        props.runDebug(index)
-    }
-
-    const addButtonConfiguration = (event, index, indexConfigObj) => {
-        event.preventDefault()
-        props.addBtnConfiguration(index)
-    }
 
     const changeHandlerFieldName = (event, name, inde) => {
         props.setFieldName(event.target.value, name, inde)
@@ -69,7 +36,6 @@ const CatInputs = (props) => {
                 employer = `employer-${idx}`,
                 position_of_contractor = `position_of_contractor-${idx}`,
                 reason_for_leaving = `reason_for_leaving-${idx}`,
-                notice_required = `notice_required-${idx}`,
                 salary = `salary-${idx}`
             return (
                 // <FuseAnimate animation="transition.expandIn" delay={300}>
@@ -77,16 +43,6 @@ const CatInputs = (props) => {
 
                     <Grid container spacing={3} className='mt-3' className='margin-top-15px'>
 
-                        {/* <Grid item md={1} xs={12}>
-                        <Fab
-                            color="primary"
-                            aria-label="add"
-
-                            onClick={clickButton}
-                        >
-                            <Icon>add</Icon>
-                        </Fab>
-                    </Grid> */}
                         <Grid item md={4} xs={12}>
                             <TextField
 

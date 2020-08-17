@@ -1,52 +1,15 @@
 import React from "react"
-import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 // import FuseAnimate from '@fuse/core/FuseAnimate';
-import Icon from '@material-ui/core/Icon';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import Fab from '@material-ui/core/Fab';
 import './../App.css'
 
-import { makeStyles } from '@material-ui/core/styles';
 import {
-    Card,
-    CardActions,
-    CardContent,
-    Divider,
-    Button,
-    Grid,
-    MenuItem,
+    Grid
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
-    addButton: {
-        position: 'absolute',
-        right: 12,
-        bottom: 12,
-        zIndex: 99
-    }
-});
 
 
 const CatInputs = (props) => {
-    const clickButton = () => {
-        props.addField();
-    }
-
-    const clickButtonConfiguration = (event, index) => {
-        event.preventDefault()
-        props.addConfiguration(index)
-        props.addBtnConfiguration(index)
-    }
-
-    const runDebug = (index) => {
-        props.runDebug(index)
-    }
-
-    const addButtonConfiguration = (event, index, indexConfigObj) => {
-        event.preventDefault()
-        props.addBtnConfiguration(index)
-    }
 
     const changeHandlerFieldName = (event, name, inde) => {
         props.setFieldName(event.target.value, name, inde)

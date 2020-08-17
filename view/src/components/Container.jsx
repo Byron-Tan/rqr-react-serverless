@@ -1,12 +1,13 @@
 import React, { useState, useCallback } from 'react'
 import { Card } from './card'
 import update from 'immutability-helper'
+import { useEffect } from 'react'
 const style = {
     width: 400,
 }
-const Container = (props) => {
+export const Container = (props) => {
     {
-        let { setCardObj } = props
+        const { setCardObj } = props
         const [cards, setCards] = useState([
             {
                 id: 1,
@@ -37,34 +38,32 @@ const Container = (props) => {
                 text: 'Teamwork environment',
             },
         ])
-        const [hoverindex, setHoverIndex] = useState(cards)
+
+        useEffect(() => {
+            console.log(cards)
+            setCardObj(cards)
+        }, [cards])
+
 
         const moveCard = useCallback(
             (dragIndex, hoverIndex) => {
-                setHoverIndex({ hoverIndex });
                 const dragCard = cards[dragIndex]
+                console.log('dragIndex', dragIndex)
+                console.log('hoverIndex', hoverIndex)
+
                 setCards(
                     update(cards, {
                         $splice: [
                             [dragIndex, 1],
                             [hoverIndex, 0, dragCard],
                         ],
-                    }, setCardObj(cards))
+                    }),
                 )
-                console.log()
             },
             [cards],
         )
-
-        const changeCardIndex = () => {
-            // console.log(cards)
-        }
-
-        useState(() => {
-            console.log(hoverindex)
-        }, [hoverindex])
-
         const renderCard = (card, index) => {
+            // props.setCardObj(card)
             return (
                 <Card
                     key={card.id}
@@ -82,5 +81,3 @@ const Container = (props) => {
         )
     }
 }
-
-export default Container

@@ -14,7 +14,8 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
 import FormControl from '@material-ui/core/FormControl';
 import FieldsPreviousEmployement from './fieldsPreviousEmployement'
-import Container from './Container'
+// import { Container as default } from './Container'
+import Example from './example'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import {
@@ -28,7 +29,7 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import Slider from '@material-ui/core/Slider';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 
 import clsx from "clsx";
 
@@ -127,6 +128,7 @@ class account extends Component {
       fieldsEmployement: [{ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '', notice_required: '' }],
       fieldsPreviousEmployement: [{ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '' }],
       educationDate: "",
+      cards: [],
       employment: [
         {
           date: "",
@@ -149,9 +151,9 @@ class account extends Component {
       vehicleOwner: "",
       criminalConvictions: "no",
       dataAvailable: "",
-      communication: "",
+      // communication: "",
       selfConfidence: "",
-      teamwork: "",
+      // teamwork: "",
       achievement: "",
       goals: "",
       interests: "",
@@ -362,10 +364,10 @@ class account extends Component {
 
   setFieldNameFun = (value, field_name, index) => {
     let obj = [...this.state.fields]
-    if (field_name == 'date') {
+    if (field_name === 'date') {
 
       obj[index].date = value
-    } else if (field_name == 'college_name') {
+    } else if (field_name === 'college_name') {
       obj[index].college_name = value
 
     } else {
@@ -381,22 +383,22 @@ class account extends Component {
 
   setFieldNameEmployementFun = (value, field_name, index) => {
     let obj = [...this.state.fieldsEmployement]
-    if (field_name == 'date') {
+    if (field_name === 'date') {
 
       obj[index].date = value
-    } else if (field_name == 'employer') {
+    } else if (field_name === 'employer') {
       obj[index].employer = value
 
-    } else if (field_name == 'position_of_contractor') {
+    } else if (field_name === 'position_of_contractor') {
       obj[index].position_of_contractor = value
 
-    } else if (field_name == 'salary') {
+    } else if (field_name === 'salary') {
       obj[index].salary = value
 
-    } else if (field_name == 'notice_required') {
+    } else if (field_name === 'notice_required') {
       obj[index].notice_required = value
 
-    } else if (field_name == 'reason_for_leaving') {
+    } else if (field_name === 'reason_for_leaving') {
       obj[index].reason_for_leaving = value
 
     } else {
@@ -413,19 +415,19 @@ class account extends Component {
 
   setFieldNamePreviousEmployementFun = (value, field_name, index) => {
     let obj = [...this.state.fieldsPreviousEmployement]
-    if (field_name == 'date') {
+    if (field_name === 'date') {
 
       obj[index].date = value
-    } else if (field_name == 'employer') {
+    } else if (field_name === 'employer') {
       obj[index].employer = value
 
-    } else if (field_name == 'position_of_contractor') {
+    } else if (field_name === 'position_of_contractor') {
       obj[index].position_of_contractor = value
 
-    } else if (field_name == 'salary') {
+    } else if (field_name === 'salary') {
       obj[index].salary = value
 
-    } else if (field_name == 'reason_for_leaving') {
+    } else if (field_name === 'reason_for_leaving') {
       obj[index].reason_for_leaving = value
 
     } else {
@@ -441,6 +443,13 @@ class account extends Component {
 
   setCard = (cards) => {
     console.log(cards)
+    this.setCardVal(cards)
+  }
+
+  setCardVal = (cards) => {
+    this.setState({
+      cards: cards
+    })
   }
 
   updateFormValues = (event) => {
@@ -474,7 +483,7 @@ class account extends Component {
 
   render() {
     const { classes, ...rest } = this.props;
-    const { employment } = this.state.employment;
+    // const { employment } = this.state.employment;
     if (this.state.uiLoading === true) {
       return (
         <main className={classes.content}>
@@ -1009,7 +1018,7 @@ class account extends Component {
                         <Divider />
                         <div className='margin-top-15px'>
                           <DndProvider backend={HTML5Backend}>
-                            <Container setCardObj={this.setCard} />
+                            <Example setCardObj={this.setCard} />
                           </DndProvider>
                         </div>
 
@@ -1039,7 +1048,7 @@ class account extends Component {
               <CircularProgress size={30} className={classes.progess} />
             )}
           </Button>
-        </main>
+        </main >
       );
     }
   }

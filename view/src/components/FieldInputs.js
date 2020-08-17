@@ -1,24 +1,18 @@
 import React from "react"
-import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 // import FuseAnimate from '@fuse/core/FuseAnimate';
-import Icon from '@material-ui/core/Icon';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import Fab from '@material-ui/core/Fab';
+// import Icon from '@material-ui/core/Icon';
+// import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+// import Fab from '@material-ui/core/Fab';
 import { makeStyles } from '@material-ui/core/styles';
-import withStyles from "@material-ui/core/styles/withStyles";
+// import withStyles from "@material-ui/core/styles/withStyles";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import IconButton from "@material-ui/core/IconButton";
 
 import './../App.css'
 import {
-    Card,
-    CardActions,
-    CardContent,
-    Divider,
-    Button,
     Grid,
-    MenuItem,
 } from "@material-ui/core";
 
 
@@ -39,19 +33,19 @@ const CatInputs = (props) => {
     // console.log(props)
     const classes = styles();
 
-    const clickButton = () => {
-        props.addField();
-    }
+    // const clickButton = () => {
+    //     props.addField();
+    // }
 
-    const clickButtonConfiguration = (event, index) => {
-        event.preventDefault()
-        props.addConfiguration(index)
-        props.addBtnConfiguration(index)
-    }
+    // const clickButtonConfiguration = (event, index) => {
+    //     event.preventDefault()
+    //     props.addConfiguration(index)
+    //     props.addBtnConfiguration(index)
+    // }
 
-    const runDebug = (index) => {
-        props.runDebug(index)
-    }
+    // const runDebug = (index) => {
+    //     props.runDebug(index)
+    // }
 
     const removeFields = (event, index) => {
         event.preventDefault()
@@ -59,10 +53,10 @@ const CatInputs = (props) => {
         props.removeFields(index)
     }
 
-    const addButtonConfiguration = (event, index, indexConfigObj) => {
-        event.preventDefault()
-        props.addBtnConfiguration(index)
-    }
+    // const addButtonConfiguration = (event, index, indexConfigObj) => {
+    //     event.preventDefault()
+    //     props.addBtnConfiguration(index)
+    // }
 
     const changeHandlerFieldName = (event, field_name, inde) => {
         props.setFieldName(event.target.value, field_name, inde)
