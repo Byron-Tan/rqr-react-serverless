@@ -4,20 +4,20 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import FieldInputs from './FieldInputs'
-import FieldInputsEmployement from './FieldInputsEmployement'
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
+import FieldInputs from "./FieldInputs";
+import FieldInputsEmployement from "./FieldInputsEmployement";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
-import FormControl from '@material-ui/core/FormControl';
-import FieldsPreviousEmployement from './fieldsPreviousEmployement'
+import FormControl from "@material-ui/core/FormControl";
+import FieldsPreviousEmployement from "./fieldsPreviousEmployement";
 // import { Container as default } from './Container'
-import Example from './example'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import Example from "./example";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import {
   Card,
   CardActions,
@@ -28,7 +28,7 @@ import {
   TextField,
   MenuItem,
 } from "@material-ui/core";
-import Slider from '@material-ui/core/Slider';
+import Slider from "@material-ui/core/Slider";
 // import { makeStyles } from '@material-ui/core/styles';
 
 import clsx from "clsx";
@@ -48,7 +48,7 @@ const styles = (theme) => ({
     display: "flex",
   },
   width100: {
-    width: '100% !important'
+    width: "100% !important",
   },
   avatar: {
     height: 110,
@@ -57,22 +57,22 @@ const styles = (theme) => ({
     flexGrow: 0,
   },
   marginTop15px: {
-    marginTop: '15px'
+    marginTop: "15px",
   },
   locationText: {
     paddingLeft: "15px",
   },
-  padding15px: '15px',
+  padding15px: "15px",
   buttonProperty: {
     position: "absolute",
     top: "50%",
   },
   section2: {
-    width: '100%',
+    width: "100%",
     margin: theme.spacing(2),
   },
   section6: {
-    width: '100%',
+    width: "100%",
     margin: theme.spacing(2),
   },
   uiProgess: {
@@ -111,22 +111,37 @@ class account extends Component {
       phoneNumber: "",
       username: "",
       profilePicture: "",
-      mobile: '',
       address: "",
-      addresses: [],
       educationLevel: "",
-      communication: '',
-      self_confidence: '',
-      teamwork: '',
-      leadership: '',
-      self_motivation: '',
+      communication: "",
+      self_confidence: "",
+      teamwork: "",
+      leadership: "",
+      self_motivation: "",
       educationInstitution: "",
-      looking_to_achieve_role: '',
-      goals_achieve_from_career: '',
-      hobbies: '',
-      fields: [{ date: "", college_name: "", certification_gained: '' }],
-      fieldsEmployement: [{ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '', notice_required: '' }],
-      fieldsPreviousEmployement: [{ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '' }],
+      looking_to_achieve_role: "",
+      goals_achieve_from_career: "",
+      hobbies: "",
+      fields: [{ date: "", college_name: "", certification_gained: "" }],
+      fieldsEmployement: [
+        {
+          date: "",
+          employer: "",
+          position_of_contractor: "",
+          salary: "",
+          reason_for_leaving: "",
+          notice_required: "",
+        },
+      ],
+      fieldsPreviousEmployement: [
+        {
+          date: "",
+          employer: "",
+          position_of_contractor: "",
+          salary: "",
+          reason_for_leaving: "",
+        },
+      ],
       educationDate: "",
       cards: [],
       employment: [
@@ -138,12 +153,12 @@ class account extends Component {
           leaveReason: "",
         },
       ],
-      available_start_date: '',
-      australian_resident: 'yes',
-      highest_education: 'cerificate',
-      highest_education_value: 'cerificate',
-      vehicle_owner: 'yes',
-      current_work_visa: 'yes',
+      available_start_date: "",
+      australian_resident: "yes",
+      highest_education: "cerificate",
+      highest_education_value: "cerificate",
+      vehicle_owner: "yes",
+      current_work_visa: "yes",
       workVisa: "",
       visaType: "",
       visaExpiry: "",
@@ -157,9 +172,9 @@ class account extends Component {
       achievement: "",
       goals: "",
       interests: "",
-      type: '',
+      current_work_visa_type: "",
       priorities: [],
-      expiryDate: '',
+      visaExpiryDate: "",
       professionalReference: {
         fullName: "",
         contactNumber: "",
@@ -210,15 +225,13 @@ class account extends Component {
     });
   };
 
-  handleCHangeAddress = (value) => {
+  handleChangeAddress = (value) => {
     this.setState({
       address: value,
     });
-  }
+  };
 
-  handleChangeHighestEducation = (event) => {
-
-  }
+  handleChangeHighestEducation = (event) => {};
 
   handleImageChange = (event) => {
     this.setState({
@@ -228,14 +241,14 @@ class account extends Component {
 
   valuetext = (value) => {
     return `${value}°C`;
-  }
+  };
 
   valuetextCommunication = (value) => {
     this.setState({
       communication: value,
     });
     return `${value}°C`;
-  }
+  };
 
   // valuetextSelfConfidence = (value) => {
   //   this.setState({
@@ -264,7 +277,6 @@ class account extends Component {
       let employment = [...this.state.employment];
       employment[e.target.dataset.id][e.target.className] = e.target.value;
       this.setState({ employment });
-      console.log(this.state.employment);
     } else {
       this.setState({ [e.target.name]: e.target.value });
     }
@@ -318,173 +330,158 @@ class account extends Component {
   };
 
   addFields = () => {
-    let objArr = [...this.state.fields]
-    objArr.push({ date: "", college_name: "", certification_gained: '' })
+    let objArr = [...this.state.fields];
+    objArr.push({ date: "", college_name: "", certification_gained: "" });
     this.setState({
-      fields: objArr
-    })
-  }
+      fields: objArr,
+    });
+  };
 
   addFieldsEmployement = () => {
-    let objArr = [...this.state.fieldsEmployement]
-    objArr.push({ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '', notice_required: '' })
+    let objArr = [...this.state.fieldsEmployement];
+    objArr.push({
+      date: "",
+      employer: "",
+      position_of_contractor: "",
+      salary: "",
+      reason_for_leaving: "",
+      notice_required: "",
+    });
     this.setState({
-      fieldsEmployement: objArr
-    })
-  }
+      fieldsEmployement: objArr,
+    });
+  };
 
   addFieldsPreviousEmployement = () => {
-    let objArr = [...this.state.fieldsPreviousEmployement]
-    objArr.push({ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '' })
+    let objArr = [...this.state.fieldsPreviousEmployement];
+    objArr.push({
+      date: "",
+      employer: "",
+      position_of_contractor: "",
+      salary: "",
+      reason_for_leaving: "",
+    });
     this.setState({
-      fieldsPreviousEmployement: objArr
-    })
-  }
+      fieldsPreviousEmployement: objArr,
+    });
+  };
 
   removeFields = (index) => {
-    let obj = [...this.state.fields]
-    console.log(index)
-    console.log('obj before slice', obj)
-    obj.splice(index, 1)
-    console.log('obj after slice', obj)
-
+    let obj = [...this.state.fields];
+    obj.splice(index, 1);
     this.setState({
-      fields: obj
-    })
-    console.log('index of removed field', index)
-  }
+      fields: obj,
+    });
+  };
 
   removeFieldsEmployementHistory = (index) => {
-    let obj = [...this.state.fieldsPreviousEmployement]
-    console.log(index)
-    console.log('obj before slice', obj)
-    obj.splice(index, 1)
-    console.log('obj after slice', obj)
+    let obj = [...this.state.fieldsPreviousEmployement];
+    obj.splice(index, 1);
 
     this.setState({
-      fieldsPreviousEmployement: obj
-    })
-    console.log('index of removed field', index)
-    console.log('index of removed field', index)
-  }
+      fieldsPreviousEmployement: obj,
+    });
+  };
 
   setFieldNameFun = (value, field_name, index) => {
-    let obj = [...this.state.fields]
-    if (field_name === 'date') {
-
-      obj[index].date = value
-    } else if (field_name === 'college_name') {
-      obj[index].college_name = value
-
+    let obj = [...this.state.fields];
+    if (field_name === "date") {
+      obj[index].date = value;
+    } else if (field_name === "college_name") {
+      obj[index].college_name = value;
     } else {
-      obj[index].qualification_gained = value
-
+      obj[index].qualification_gained = value;
     }
     this.setState({
-      fields: obj
-    })
-    console.log('index in set field name', index)
-    console.log('value in set field name', value)
-  }
+      fields: obj,
+    });
+  };
 
   setFieldNameEmployementFun = (value, field_name, index) => {
-    let obj = [...this.state.fieldsEmployement]
-    if (field_name === 'date') {
-
-      obj[index].date = value
-    } else if (field_name === 'employer') {
-      obj[index].employer = value
-
-    } else if (field_name === 'position_of_contractor') {
-      obj[index].position_of_contractor = value
-
-    } else if (field_name === 'salary') {
-      obj[index].salary = value
-
-    } else if (field_name === 'notice_required') {
-      obj[index].notice_required = value
-
-    } else if (field_name === 'reason_for_leaving') {
-      obj[index].reason_for_leaving = value
-
+    let obj = [...this.state.fieldsEmployement];
+    if (field_name === "date") {
+      obj[index].date = value;
+    } else if (field_name === "employer") {
+      obj[index].employer = value;
+    } else if (field_name === "position_of_contractor") {
+      obj[index].position_of_contractor = value;
+    } else if (field_name === "salary") {
+      obj[index].salary = value;
+    } else if (field_name === "notice_required") {
+      obj[index].notice_required = value;
+    } else if (field_name === "reason_for_leaving") {
+      obj[index].reason_for_leaving = value;
     } else {
-      obj[index].qualification_gained = value
-
+      obj[index].qualification_gained = value;
     }
     // obj[index].extraction_field_name = value
     this.setState({
-      fieldsEmployement: obj
-    })
-    console.log('index in set field name', index)
-    console.log('value in set field name', value)
-  }
+      fieldsEmployement: obj,
+    });
+  };
 
   setFieldNamePreviousEmployementFun = (value, field_name, index) => {
-    let obj = [...this.state.fieldsPreviousEmployement]
-    if (field_name === 'date') {
-
-      obj[index].date = value
-    } else if (field_name === 'employer') {
-      obj[index].employer = value
-
-    } else if (field_name === 'position_of_contractor') {
-      obj[index].position_of_contractor = value
-
-    } else if (field_name === 'salary') {
-      obj[index].salary = value
-
-    } else if (field_name === 'reason_for_leaving') {
-      obj[index].reason_for_leaving = value
-
+    let obj = [...this.state.fieldsPreviousEmployement];
+    if (field_name === "date") {
+      obj[index].date = value;
+    } else if (field_name === "employer") {
+      obj[index].employer = value;
+    } else if (field_name === "position_of_contractor") {
+      obj[index].position_of_contractor = value;
+    } else if (field_name === "salary") {
+      obj[index].salary = value;
+    } else if (field_name === "reason_for_leaving") {
+      obj[index].reason_for_leaving = value;
     } else {
-      obj[index].qualification_gained = value
-
+      obj[index].qualification_gained = value;
     }
     this.setState({
-      fieldsPreviousEmployement: obj
-    })
-    console.log('index in set field name', index)
-    console.log('value in set field name', value)
-  }
+      fieldsPreviousEmployement: obj,
+    });
+  };
 
   setCard = (cards) => {
-    console.log(cards)
-    this.setCardVal(cards)
-  }
+    this.setCardVal(cards);
+  };
 
   setCardVal = (cards) => {
     this.setState({
-      cards: cards
-    })
-  }
+      priorities: cards,
+    });
+  };
 
   updateFormValues = (event) => {
-    console.log(this.state)
-    event.preventDefault();
-    this.setState({ buttonLoading: true });
-    authMiddleWare(this.props.history);
-    const authToken = localStorage.getItem("AuthToken");
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
     const formRequest = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      address: this.state.address,
+      // address: this.state.address,
+      // startDate: this.state.available_start_date,
+      // funnel: this.state.howDidYouHearAboutUs,
+      // vehicleOwner: this.state.vehicle_owner,
+      // resident: this.state.australian_resident,
+      // currentWorkVisa: this.state.current_work_visa,
+      // currentVisaType: this.state.current_work_visa_type,
+      // currentVisaExpiry: this.state.current_work_visa_expiry,
+      // highest_education: this.state.highest_education,
+      education: this.state.fields,
     };
     console.log(formRequest);
-    debugger;
-    axios
-      .post("/user", formRequest)
-      .then(() => {
-        this.setState({ buttonLoading: false });
-      })
-      .catch((error) => {
-        if (error.response.status === 403) {
-          this.props.history.push("/login");
-        }
-        this.setState({
-          buttonLoading: false,
-        });
-      });
+    // event.preventDefault();
+    // this.setState({ buttonLoading: true });
+    // authMiddleWare(this.props.history);
+    // const authToken = localStorage.getItem("AuthToken");
+    // axios.defaults.headers.common = { Authorization: `${authToken}` };
+    // axios
+    //   .post("/user", formRequest)
+    //   .then(() => {
+    //     this.setState({ buttonLoading: false });
+    //   })
+    //   .catch((error) => {
+    //     if (error.response.status === 403) {
+    //       this.props.history.push("/login");
+    //     }
+    //     this.setState({
+    //       buttonLoading: false,
+    //     });
+    //   });
   };
 
   render() {
@@ -532,8 +529,8 @@ class account extends Component {
                       Wrong Image Format || Supported Format are PNG and JPG
                     </div>
                   ) : (
-                      false
-                    )}
+                    false
+                  )}
                 </div>
               </div>
               <div className={classes.progress} />
@@ -553,6 +550,7 @@ class account extends Component {
                       label="First name"
                       margin="dense"
                       name="firstName"
+                      disabled
                       value={this.state.firstName}
                       onChange={this.handleChange}
                     />
@@ -560,6 +558,7 @@ class account extends Component {
                   <Grid item md={6} xs={12}>
                     <TextField
                       fullWidth
+                      disabled
                       label="Last name"
                       margin="dense"
                       name="lastName"
@@ -569,8 +568,8 @@ class account extends Component {
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextField
-
                       required
+                      disabled
                       fullWidth
                       name="dateOfBirth"
                       label="Date of Birth"
@@ -586,30 +585,8 @@ class account extends Component {
                   <Grid item xs={6} md={6}>
                     <GoogleMaps
                       value={this.state.address}
-                      onChange={this.handleCHangeAddress}
-                      setHandler={this.handleCHangeAddress}
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Home Phone"
-                      margin="dense"
-                      name="phone"
-                      type="number"
-                      value={this.state.phoneNumber}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Mobile"
-                      margin="dense"
-                      name="mobile"
-                      type="number"
-                      value={this.state.mobile}
-                      onChange={this.handleChange}
+                      onChange={this.handleChangeAddress}
+                      setHandler={this.handleChangeAddress}
                     />
                   </Grid>
                   <Grid item md={6} xs={12}>
@@ -621,6 +598,31 @@ class account extends Component {
                       disabled={true}
                       value={this.state.email}
                       onChange={this.handleChange}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Contact Number"
+                      margin="dense"
+                      name="phone"
+                      type="number"
+                      value={this.state.phoneNumber}
+                      onChange={this.handleChange}
+                    />
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      name="available_start_date"
+                      label="Date avalible to start"
+                      type="date"
+                      id="available_start_date"
+                      onChange={this.handleChange}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </Grid>
                   <Grid item md={6} xs={12}>
@@ -645,251 +647,272 @@ class account extends Component {
                     </TextField>
                   </Grid>
                   <Grid item md={6} xs={12}>
-                    <FormLabel component="legend">Australian resident</FormLabel>
-                    <RadioGroup aria-label="Australian resident" name="australian_resident" value={this.state.australian_resident} onChange={this.handleChange}>
-                      <FormControlLabel value="female" control={<Radio />} label="Yes" />
-                      <FormControlLabel value="male" control={<Radio />} label="No" />
-                    </RadioGroup>
-                  </Grid>
-                  <Grid item md={6} xs={12}>
                     <FormLabel component="legend">Vehicle owner</FormLabel>
-                    <RadioGroup aria-label="Vehicle owner" name="vehicle_owner" value={this.state.vehicle_owner} onChange={this.handleChange}>
-                      <FormControlLabel value="female" control={<Radio />} label="Yes" />
-                      <FormControlLabel value="male" control={<Radio />} label="No" />
-                    </RadioGroup>
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <FormLabel component="legend">If no,do you have a current work visa?</FormLabel>
-                    <RadioGroup aria-label="Vehicle owner" name="current_work_visa" value={this.state.current_work_visa} onChange={this.handleChange}>
-                      <FormControlLabel value="female" control={<Radio />} label="Yes" />
-                      <FormControlLabel value="male" control={<Radio />} label="No" />
-                    </RadioGroup>
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <FormLabel component="legend">Criminal convitions</FormLabel>
-                    <RadioGroup aria-label="Vehicle owner" name="criminalConvictions" value={this.state.criminalConvictions} onChange={this.handleChange}>
-                      <FormControlLabel value="female" control={<Radio />} label="Yes" />
-                      <FormControlLabel value="male" control={<Radio />} label="No" />
-                    </RadioGroup>
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Type"
-                      margin="dense"
-                      name="type"
-                      value={this.state.type}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-
-                      required
-                      fullWidth
-                      name="expiryDate"
-                      label="Date of expiry"
-                      type="date"
-                      id="expiryDate"
-                      defaultValue="2017-05-24"
-                      onChange={this.handleChange}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-
-                      required
-                      fullWidth
-                      name="available_start_date"
-                      label="Date avalible to start"
-                      type="date"
-                      id="available_start_date"
-                      defaultValue="2017-05-24"
-                      onChange={this.handleChange}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-                  {/*                   
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Email"
-                      margin="dense"
-                      name="email"
-                      disabled={true}
-                      value={this.state.email}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Phone Number"
-                      margin="dense"
-                      name="phone"
-                      type="number"
-                      value={this.state.phoneNumber}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
-                  <Grid item md={6} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="User Name"
-                      margin="dense"
-                      name="userHandle"
-                      disabled={true}
-                      value={this.state.username}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} md={12}>
-                    <GoogleMaps
-                      value={this.state.address}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <TextField
-                      fullWidth
-                      margin="dense"
-                      select
-                      label="Education Level"
-                      name="educationLevel"
-                      value={this.state.educationLevel}
+                    <RadioGroup
+                      aria-label="Vehicle owner"
+                      name="vehicle_owner"
+                      value={this.state.vehicle_owner}
                       onChange={this.handleChange}
                     >
-                      <MenuItem key="1" value="Certificate">
-                        Certificate
-                      </MenuItem>
-                      <MenuItem key="2" value="Year 12">
-                        Year 12
-                      </MenuItem>
-                      <MenuItem key="3" value="University">
-                        University
-                      </MenuItem>
-                      <MenuItem key="4" value="Other">
-                        Other
-                      </MenuItem>
-                    </TextField>
-                  </Grid> */}
-                  {/* <Grid item md={4} xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Institution"
-                      margin="dense"
-                      name="educationInstitution"
-                      value={this.state.educationInstitution}
-                      onChange={this.handleChange}
-                    />
+                      <FormControlLabel
+                        value="yes"
+                        control={<Radio />}
+                        label="Yes"
+                      />
+                      <FormControlLabel
+                        value="no"
+                        control={<Radio />}
+                        label="No"
+                      />
+                    </RadioGroup>
                   </Grid>
-                  <Grid item md={4} xs={12}>
-                    <TextField
-                      fullWidth
-                      magin="dense"
-                      name="educationDate"
-                      value={this.state.educationDate}
-                      label="Date"
-                      type="month"
-                      defaultValue="2020-06"
+                  <Grid item md={6} xs={12}>
+                    <FormLabel component="legend">
+                      Criminal convitions
+                    </FormLabel>
+                    <RadioGroup
+                      aria-label="Vehicle owner"
+                      name="criminalConvictions"
+                      value={this.state.criminalConvictions}
                       onChange={this.handleChange}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid> */}
+                    >
+                      <FormControlLabel
+                        value="yes"
+                        control={<Radio />}
+                        label="Yes"
+                      />
+                      <FormControlLabel
+                        value="no"
+                        control={<Radio />}
+                        label="No"
+                      />
+                    </RadioGroup>
+                  </Grid>
+                  <Grid item md={6} xs={12}>
+                    <FormLabel component="legend">
+                      Australian resident
+                    </FormLabel>
+                    <RadioGroup
+                      aria-label="Australian resident"
+                      name="australian_resident"
+                      value={this.state.australian_resident}
+                      onChange={this.handleChange}
+                    >
+                      <FormControlLabel
+                        value="yes"
+                        control={<Radio />}
+                        label="Yes"
+                      />
+                      <FormControlLabel
+                        value="no"
+                        control={<Radio />}
+                        label="No"
+                      />
+                    </RadioGroup>
+                  </Grid>
+                  {this.state.australian_resident === "no" ? (
+                    <>
+                      <Grid item md={6} xs={12}>
+                        <FormLabel component="legend">
+                          If no,do you have a current work visa?
+                        </FormLabel>
+                        <RadioGroup
+                          aria-label="Vehicle owner"
+                          name="current_work_visa"
+                          value={this.state.current_work_visa}
+                          onChange={this.handleChange}
+                        >
+                          <FormControlLabel
+                            value="yes"
+                            control={<Radio />}
+                            label="Yes"
+                          />
+                          <FormControlLabel
+                            value="no"
+                            control={<Radio />}
+                            label="No"
+                          />
+                        </RadioGroup>
+                      </Grid>
+                      <Grid item md={6} xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Type"
+                          margin="dense"
+                          name="current_work_visa_type"
+                          value={this.state.current_work_visa_type}
+                          onChange={this.handleChange}
+                        />
+                      </Grid>
+                      <Grid item md={6} xs={12}>
+                        <TextField
+                          required
+                          fullWidth
+                          name="current_work_visa_expiry"
+                          label="Date of expiry"
+                          type="date"
+                          id="current_work_visa_expiry"
+                          defaultValue="2017-05-24"
+                          onChange={this.handleChange}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+                      </Grid>
+                    </>
+                  ) : null}
                   <Grid item md={12} xs={12}></Grid>
                   <div md={12} xs={12} className={classes.section2}>
                     <Card className={classes.width100} variant="outlined">
                       <CardContent>
-                        <Typography className='padding-12px' margin="dense" align="center" display="inline">
-                          Education <IconButton
+                        <Typography
+                          className="padding-12px"
+                          margin="dense"
+                          align="center"
+                          display="inline"
+                        >
+                          Education{" "}
+                          <IconButton
                             className={classes.floatingButton}
                             color="primary"
-                            aria-label="Add Goal"
                             onClick={this.addFields}
                           >
-                            <AddCircleIcon style={{ fontSize: 60 }} />
+                            <AddCircleIcon style={{ fontSize: 20 }} />
                           </IconButton>
                         </Typography>
                         <Divider />
-                        <div className='education-title'>
-                          <div className='mr-10px'>
+                        <div className="education-title">
+                          <div className="mr-10px">
                             Highest Education achieved:
                           </div>
 
                           <FormControl component="fieldset">
-                            <RadioGroup row name="highest_education" value={this.state.highest_education} defaultValue="certificate" onChange={this.handleChange}>
-                              <FormControlLabel value="certificate" control={<Radio color="primary" />} label="Certificate" />
-                              <FormControlLabel value="year12" control={<Radio color="primary" />} label="Year 12" />
-                              <FormControlLabel value="tafe" control={<Radio color="primary" />} label="TAFE" />
-                              <FormControlLabel value="Univercity" control={<Radio color="primary" />} label="Univercity" />
-                              <FormControlLabel value="other" control={<Radio color="primary" />} label="Other" />
-
+                            <RadioGroup
+                              row
+                              name="highest_education"
+                              value={this.state.highest_education}
+                              defaultValue="certificate"
+                              onChange={this.handleChange}
+                            >
+                              <FormControlLabel
+                                value="certificate"
+                                control={<Radio color="primary" />}
+                                label="Certificate"
+                              />
+                              <FormControlLabel
+                                value="year12"
+                                control={<Radio color="primary" />}
+                                label="Year 12"
+                              />
+                              <FormControlLabel
+                                value="tafe"
+                                control={<Radio color="primary" />}
+                                label="TAFE"
+                              />
+                              <FormControlLabel
+                                value="Univercity"
+                                control={<Radio color="primary" />}
+                                label="Univercity"
+                              />
+                              <FormControlLabel
+                                value="other"
+                                control={<Radio color="primary" />}
+                                label="Other"
+                              />
                             </RadioGroup>
                           </FormControl>
                         </div>
-                        <FieldInputs removeFields={this.removeFields} className={classes.section2} addField={this.addFields} setFieldName={this.setFieldNameFun} fields={this.state.fields} />
+                        <FieldInputs
+                          removeFields={this.removeFields}
+                          className={classes.section2}
+                          addField={this.addFields}
+                          setFieldName={this.setFieldNameFun}
+                          fields={this.state.fields}
+                        />
                       </CardContent>
                     </Card>
-
                   </div>
 
                   <div md={12} xs={12} className={classes.section2}>
                     <Card className={classes.width100} variant="outlined">
                       <CardContent>
-                        <Typography className='padding-12px' margin="dense" align="center" display="inline">
+                        <Typography
+                          className="padding-12px"
+                          margin="dense"
+                          align="center"
+                          display="inline"
+                        >
                           Employment History
                         </Typography>
                         <Divider />
-                        <FieldInputsEmployement className={classes.padding15px} addField={this.addFieldsEmployement} setFieldName={this.setFieldNameEmployementFun} fields={this.state.fieldsEmployement} />
+                        <FieldInputsEmployement
+                          className={classes.padding15px}
+                          addField={this.addFieldsEmployement}
+                          setFieldName={this.setFieldNameEmployementFun}
+                          fields={this.state.fieldsEmployement}
+                        />
                       </CardContent>
                     </Card>
-
                   </div>
 
                   <div md={12} xs={12} className={classes.section2}>
                     <Card className={classes.width100} variant="outlined">
                       <CardContent>
-                        <Typography className='padding-12px' margin="dense" align="center" display="inline">
-                          Previous work status <IconButton
+                        <Typography
+                          className="padding-12px"
+                          margin="dense"
+                          align="center"
+                          display="inline"
+                        >
+                          Previous work status{" "}
+                          <IconButton
                             className={classes.floatingButton}
                             color="primary"
                             aria-label="Add Goal"
                             onClick={this.addFieldsPreviousEmployement}
                           >
-                            <AddCircleIcon style={{ fontSize: 60 }} />
+                            <AddCircleIcon style={{ fontSize: 20 }} />
                           </IconButton>
                         </Typography>
                         <Divider />
-                        <FieldsPreviousEmployement removeFieldsEmployementHistory={this.removeFieldsEmployementHistory} addField={this.addFieldsPreviousEmployement} setFieldName={this.setFieldNamePreviousEmployementFun} fields={this.state.fieldsPreviousEmployement} />
-
+                        <FieldsPreviousEmployement
+                          removeFieldsEmployementHistory={
+                            this.removeFieldsEmployementHistory
+                          }
+                          addField={this.addFieldsPreviousEmployement}
+                          setFieldName={this.setFieldNamePreviousEmployementFun}
+                          fields={this.state.fieldsPreviousEmployement}
+                        />
                       </CardContent>
                     </Card>
-
                   </div>
 
-                  <Card className={classes.width100, classes.section6} variant="outlined">
+                  <Card
+                    className={(classes.width100, classes.section6)}
+                    variant="outlined"
+                  >
                     <CardContent>
-                      <Typography className='padding-12px' margin="dense" align="center" display="inline">
-                        Please rate yourself on following skills and characteristics.
-                        </Typography>
+                      <Typography
+                        className="padding-12px"
+                        margin="dense"
+                        align="center"
+                        display="inline"
+                      >
+                        Please rate yourself on following skills and
+                        characteristics.
+                      </Typography>
                       <Divider />
                       <Grid container spacing={3}>
-
                         <Grid item md={12} xs={12}>
-                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                          <Typography
+                            id="discrete-slider-small-steps"
+                            gutterBottom
+                          >
                             Communication
-                    </Typography>
+                          </Typography>
                           <Slider
                             margin="dense"
-                            name='communication'
+                            name="communication"
                             defaultValue={10}
                             getAriaValueText={this.valuetext}
                             aria-labelledby="discrete-slider-small-steps"
@@ -902,12 +925,15 @@ class account extends Component {
                         </Grid>
 
                         <Grid item md={12} xs={12}>
-                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                          <Typography
+                            id="discrete-slider-small-steps"
+                            gutterBottom
+                          >
                             Self confidence
-                    </Typography>
+                          </Typography>
                           <Slider
                             margin="dense"
-                            name='self_confidence'
+                            name="self_confidence"
                             defaultValue={10}
                             getAriaValueText={this.valuetext}
                             aria-labelledby="discrete-slider-small-steps"
@@ -919,12 +945,15 @@ class account extends Component {
                           />
                         </Grid>
                         <Grid item md={12} xs={12}>
-                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                          <Typography
+                            id="discrete-slider-small-steps"
+                            gutterBottom
+                          >
                             Team work
-                    </Typography>
+                          </Typography>
                           <Slider
                             margin="dense"
-                            name='team_work'
+                            name="team_work"
                             defaultValue={10}
                             getAriaValueText={this.valuetext}
                             aria-labelledby="discrete-slider-small-steps"
@@ -936,12 +965,15 @@ class account extends Component {
                           />
                         </Grid>
                         <Grid item md={12} xs={12}>
-                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                          <Typography
+                            id="discrete-slider-small-steps"
+                            gutterBottom
+                          >
                             Leadership
-                    </Typography>
+                          </Typography>
                           <Slider
                             margin="dense"
-                            name='leadership'
+                            name="leadership"
                             defaultValue={10}
                             getAriaValueText={this.valuetext}
                             aria-labelledby="discrete-slider-small-steps"
@@ -953,12 +985,15 @@ class account extends Component {
                           />
                         </Grid>
                         <Grid item md={12} xs={12}>
-                          <Typography id="discrete-slider-small-steps" gutterBottom>
+                          <Typography
+                            id="discrete-slider-small-steps"
+                            gutterBottom
+                          >
                             Self motivation
-                    </Typography>
+                          </Typography>
                           <Slider
                             margin="dense"
-                            name='self_motivation'
+                            name="self_motivation"
                             defaultValue={10}
                             getAriaValueText={this.valuetext}
                             aria-labelledby="discrete-slider-small-steps"
@@ -973,15 +1008,22 @@ class account extends Component {
                     </CardContent>
                   </Card>
 
-                  <Card className={classes.width100, classes.section2} variant="outlined">
+                  <Card
+                    className={(classes.width100, classes.section2)}
+                    variant="outlined"
+                  >
                     <CardContent>
-                      <Typography className='padding-12px' margin="dense" align="center" display="inline">
+                      <Typography
+                        className="padding-12px"
+                        margin="dense"
+                        align="center"
+                        display="inline"
+                      >
                         Personal
-                        </Typography>
+                      </Typography>
                       <Divider />
 
                       <Grid container spacing={3}>
-
                         <Grid item md={8} xs={12}>
                           <TextField
                             fullWidth
@@ -991,7 +1033,6 @@ class account extends Component {
                             value={this.state.looking_to_achieve_role}
                             onChange={this.handleChange}
                           />
-
                         </Grid>
                         <Grid item md={8} xs={12}>
                           <TextField
@@ -1019,19 +1060,23 @@ class account extends Component {
                   <div md={12} xs={12} className={classes.section2}>
                     <Card className={classes.width100} variant="outlined">
                       <CardContent>
-                        <Typography className='padding-12px' margin="dense" align="center" display="inline">
-                          What you are looking for in a job?(Number in order of importance - (1) being highest priority)
+                        <Typography
+                          className="padding-12px"
+                          margin="dense"
+                          align="center"
+                          display="inline"
+                        >
+                          What you are looking for in a job?(Number in order of
+                          importance - (1) being highest priority)
                         </Typography>
                         <Divider />
-                        <div className='margin-top-15px'>
+                        <div className="margin-top-15px">
                           <DndProvider backend={HTML5Backend}>
                             <Example setCardObj={this.setCard} />
                           </DndProvider>
                         </div>
-
                       </CardContent>
                     </Card>
-
                   </div>
                   <CardActions />
                 </Grid>
@@ -1055,7 +1100,7 @@ class account extends Component {
               <CircularProgress size={30} className={classes.progess} />
             )}
           </Button>
-        </main >
+        </main>
       );
     }
   }

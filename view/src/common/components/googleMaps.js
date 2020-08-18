@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GoogleMaps(props) {
-  const { setHandler } = props
+  const { setHandler } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
@@ -94,8 +94,8 @@ export default function GoogleMaps(props) {
   }, [value, inputValue, fetch]);
 
   useEffect(() => {
-    setHandler(inputValue)
-  }, [inputValue])
+    setHandler(inputValue);
+  }, [inputValue]);
 
   return (
     <Autocomplete
@@ -114,7 +114,6 @@ export default function GoogleMaps(props) {
         setValue(newValue);
       }}
       onInputChange={(event, newInputValue) => {
-        console.log(newInputValue)
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (

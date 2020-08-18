@@ -286,7 +286,7 @@ class goal extends Component {
             aria-label="Add Goal"
             onClick={handleClickOpen}
           >
-            <AddCircleIcon style={{ fontSize: 60 }} />
+            <AddCircleIcon style={{ fontSize: 20 }} />
           </IconButton>
           <Dialog
             fullScreen
