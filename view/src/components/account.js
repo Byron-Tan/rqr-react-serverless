@@ -450,40 +450,82 @@ class account extends Component {
     });
   };
 
+  handleSliderChange = (event, newValue) => {
+    this.setState({
+      communication: newValue,
+    });
+  };
+
+  handleSliderChangeLeaderShip = (event, newValue) => {
+    this.setState({
+      leadership: newValue,
+    });
+  };
+
+  handleSliderChangeSelfConfidence = (event, newValue) => {
+    this.setState({
+      self_confidence: newValue,
+    });
+  };
+
+  handleSliderChangeSelfMotivation = (event, newValue) => {
+    this.setState({
+      self_motivation: newValue,
+    });
+  };
+
+  handleSliderChangeTeamWork = (event, newValue) => {
+    this.setState({
+      team_work: newValue,
+    });
+  };
+
   updateFormValues = (event) => {
     const formRequest = {
-      // address: this.state.address,
-      // startDate: this.state.available_start_date,
-      // funnel: this.state.howDidYouHearAboutUs,
-      // vehicleOwner: this.state.vehicle_owner,
-      // resident: this.state.australian_resident,
-      // currentWorkVisa: this.state.current_work_visa,
-      // currentVisaType: this.state.current_work_visa_type,
-      // currentVisaExpiry: this.state.current_work_visa_expiry,
-      // highest_education: this.state.highest_education,
-      // education: this.state.fields,
-      // employment: this.state.fieldsEmployement,
-      // previous_employment: this.state.fieldsPreviousEmployement,
+      address: this.state.address,
+      startDate: this.state.available_start_date,
+      funnel: this.state.howDidYouHearAboutUs,
+      vehicleOwner: this.state.vehicle_owner,
+      resident: this.state.australian_resident,
+      currentWorkVisa: this.state.current_work_visa,
+      currentVisaType: this.state.current_work_visa_type,
+      currentVisaExpiry: this.state.current_work_visa_expiry,
+      highest_education: this.state.highest_education,
+      education: this.state.fields,
+      employment: this.state.fieldsEmployement,
+      previous_employment: this.state.fieldsPreviousEmployement,
+      communication: this.state.communication,
+      leadership: this.state.leadership,
+      self_confidence: this.state.self_confidence,
+      self_motivation: this.state.self_motivation,
+      team_work: this.state.team_work,
+      achievement_goals: this.state.looking_to_achieve_role,
+      career_goals: this.state.goals_achieve_from_career,
+      interest: this.state.hobbies,
+      priorities: this.state.priorities,
+      profileComplete: "true",
+      hired: "false",
     };
     console.log(formRequest);
-    // event.preventDefault();
-    // this.setState({ buttonLoading: true });
-    // authMiddleWare(this.props.history);
-    // const authToken = localStorage.getItem("AuthToken");
-    // axios.defaults.headers.common = { Authorization: `${authToken}` };
-    // axios
-    //   .post("/user", formRequest)
-    //   .then(() => {
-    //     this.setState({ buttonLoading: false });
-    //   })
-    //   .catch((error) => {
-    //     if (error.response.status === 403) {
-    //       this.props.history.push("/login");
-    //     }
-    //     this.setState({
-    //       buttonLoading: false,
-    //     });
-    //   });
+    event.preventDefault();
+    this.setState({ buttonLoading: true });
+    authMiddleWare(this.props.history);
+    const authToken = localStorage.getItem("AuthToken");
+    axios.defaults.headers.common = { Authorization: `${authToken}` };
+    axios
+      .post("/user", formRequest)
+      .then(() => {
+        this.setState({ buttonLoading: false });
+        this.props.history.push("/");
+      })
+      .catch((error) => {
+        if (error.response.status === 403) {
+          this.props.history.push("/login");
+        }
+        this.setState({
+          buttonLoading: false,
+        });
+      });
   };
 
   render() {
@@ -832,7 +874,6 @@ class account extends Component {
                       </CardContent>
                     </Card>
                   </div>
-
                   <div md={12} xs={12} className={classes.section2}>
                     <Card className={classes.width100} variant="outlined">
                       <CardContent>
@@ -854,7 +895,6 @@ class account extends Component {
                       </CardContent>
                     </Card>
                   </div>
-
                   <div md={12} xs={12} className={classes.section2}>
                     <Card className={classes.width100} variant="outlined">
                       <CardContent>
@@ -886,7 +926,6 @@ class account extends Component {
                       </CardContent>
                     </Card>
                   </div>
-
                   <Card
                     className={(classes.width100, classes.section6)}
                     variant="outlined"
@@ -911,16 +950,14 @@ class account extends Component {
                             Communication
                           </Typography>
                           <Slider
-                            margin="dense"
                             name="communication"
-                            defaultValue={10}
-                            getAriaValueText={this.valuetext}
-                            aria-labelledby="discrete-slider-small-steps"
-                            step={1}
-                            marks
-                            min={1}
-                            max={100}
-                            valueLabelDisplay="auto"
+                            value={
+                              typeof this.state.communication === "number"
+                                ? this.state.communication
+                                : 0
+                            }
+                            onChange={this.handleSliderChange}
+                            aria-labelledby="input-slider"
                           />
                         </Grid>
 
@@ -932,16 +969,14 @@ class account extends Component {
                             Self confidence
                           </Typography>
                           <Slider
-                            margin="dense"
                             name="self_confidence"
-                            defaultValue={10}
-                            getAriaValueText={this.valuetext}
-                            aria-labelledby="discrete-slider-small-steps"
-                            step={1}
-                            marks
-                            min={1}
-                            max={100}
-                            valueLabelDisplay="auto"
+                            value={
+                              typeof this.state.self_confidence === "number"
+                                ? this.state.self_confidence
+                                : 0
+                            }
+                            onChange={this.handleSliderChangeSelfConfidence}
+                            aria-labelledby="input-slider"
                           />
                         </Grid>
                         <Grid item md={12} xs={12}>
@@ -952,16 +987,14 @@ class account extends Component {
                             Team work
                           </Typography>
                           <Slider
-                            margin="dense"
                             name="team_work"
-                            defaultValue={10}
-                            getAriaValueText={this.valuetext}
-                            aria-labelledby="discrete-slider-small-steps"
-                            step={1}
-                            marks
-                            min={1}
-                            max={100}
-                            valueLabelDisplay="auto"
+                            value={
+                              typeof this.state.team_work === "number"
+                                ? this.state.team_work
+                                : 0
+                            }
+                            onChange={this.handleSliderChangeTeamWork}
+                            aria-labelledby="input-slider"
                           />
                         </Grid>
                         <Grid item md={12} xs={12}>
@@ -972,16 +1005,14 @@ class account extends Component {
                             Leadership
                           </Typography>
                           <Slider
-                            margin="dense"
                             name="leadership"
-                            defaultValue={10}
-                            getAriaValueText={this.valuetext}
-                            aria-labelledby="discrete-slider-small-steps"
-                            step={1}
-                            marks
-                            min={1}
-                            max={100}
-                            valueLabelDisplay="auto"
+                            value={
+                              typeof this.state.leadership === "number"
+                                ? this.state.leadership
+                                : 0
+                            }
+                            onChange={this.handleSliderChangeLeaderShip}
+                            aria-labelledby="input-slider"
                           />
                         </Grid>
                         <Grid item md={12} xs={12}>
@@ -992,22 +1023,19 @@ class account extends Component {
                             Self motivation
                           </Typography>
                           <Slider
-                            margin="dense"
                             name="self_motivation"
-                            defaultValue={10}
-                            getAriaValueText={this.valuetext}
-                            aria-labelledby="discrete-slider-small-steps"
-                            step={1}
-                            marks
-                            min={1}
-                            max={100}
-                            valueLabelDisplay="auto"
+                            value={
+                              typeof this.state.self_motivation === "number"
+                                ? this.state.self_motivation
+                                : 0
+                            }
+                            onChange={this.handleSliderChangeSelfMotivation}
+                            aria-labelledby="input-slider"
                           />
                         </Grid>
                       </Grid>
                     </CardContent>
                   </Card>
-
                   <Card
                     className={(classes.width100, classes.section2)}
                     variant="outlined"

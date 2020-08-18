@@ -18,12 +18,15 @@ import ListItemText from "@material-ui/core/ListItemText";
 import withStyles from "@material-ui/core/styles/withStyles";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import NotesIcon from "@material-ui/icons/Notes";
-// import Avatar from "@material-ui/core/avatar";
+import Avatar from "@material-ui/core/avatar";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Alert from "@material-ui/lab/Alert";
+import Card from "@material-ui/core/Card";
 
 import { authMiddleWare } from "../../util/auth";
+import { CardContent } from "@material-ui/core";
+import ThankYou from "../../components/registrationty";
 
 const drawerWidth = 240;
 
@@ -93,14 +96,7 @@ class dashboard extends Component {
       uiLoading: true,
       imageLoading: false,
     };
-    this.renderProfilePromt = this.renderProfilePromt.bind(this);
   }
-
-  renderProfilePromt = () => {
-    if (!this.state.completedProfile) {
-      return alert("Please Complete Account Information");
-    }
-  };
 
   componentDidMount = () => {
     authMiddleWare(this.props.history);
@@ -119,6 +115,7 @@ class dashboard extends Component {
           username: response.data.userCredentials.username,
           profileComplete: response.data.userCredentials.profileComplete,
           role: response.data.userCredentials.role,
+          hired: response.data.userCredentials.hired,
           uiLoading: false,
           profilePicture: response.data.userCredentials.imageUrl,
         });
@@ -161,17 +158,17 @@ class dashboard extends Component {
             <div className={classes.toolbar} />
             <Divider />
             <center>
-              {/* <Avatar
+              <Avatar
                 src={this.state.profilePicture}
                 className={classes.avatar}
-              /> */}
+              />
               <p>
                 {" "}
                 {this.state.firstName} {this.state.lastName}
               </p>
             </center>
             <Divider />
-            {this.state.profileComplete !== true ? (
+            {this.state.profileComplete !== "true" ? (
               <Alert severity="info">Please Complete Account Information</Alert>
             ) : null}
             <List>
@@ -200,7 +197,14 @@ class dashboard extends Component {
               </ListItem>
             </List>
           </Drawer>
-          <div> {this.state.render ? <Account /> : <Goal />}</div>
+          <div>
+            {" "}
+            {this.state.render ? <Account /> : <Goal />}
+            {this.state.hired === "false" &&
+            this.state.profileComplete === "true" ? (
+              <ThankYou />
+            ) : null}
+          </div>
         </div>
       );
     }

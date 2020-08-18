@@ -42,7 +42,6 @@ const CatInputs = (props) => {
               type="date"
               id={dateId}
               value={val.date}
-              // defaultValue="2017-05-24"
               onChange={(e) => {
                 changeHandlerFieldName(e, "date", idx);
               }}

@@ -203,7 +203,6 @@ class signup extends Component {
                   label="Date of Birth"
                   type="date"
                   id="dateOfBirth"
-                  defaultValue="2017-05-24"
                   onChange={this.handleChange}
                   InputLabelProps={{
                     shrink: true,
