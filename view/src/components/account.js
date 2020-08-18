@@ -210,6 +210,12 @@ class account extends Component {
     });
   };
 
+  handleCHangeAddress = (value) => {
+    this.setState({
+      address: value,
+    });
+  }
+
   handleChangeHighestEducation = (event) => {
 
   }
@@ -580,7 +586,8 @@ class account extends Component {
                   <Grid item xs={6} md={6}>
                     <GoogleMaps
                       value={this.state.address}
-                      onChange={this.handleChange}
+                      onChange={this.handleCHangeAddress}
+                      setHandler={this.handleCHangeAddress}
                     />
                   </Grid>
                   <Grid item md={6} xs={12}>

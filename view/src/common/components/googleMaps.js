@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GoogleMaps() {
+export default function GoogleMaps(props) {
+  const { setHandler } = props
   const classes = useStyles();
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
@@ -92,6 +93,10 @@ export default function GoogleMaps() {
     };
   }, [value, inputValue, fetch]);
 
+  useEffect(() => {
+    setHandler(inputValue)
+  }, [inputValue])
+
   return (
     <Autocomplete
       id="google-map-demo"
@@ -109,6 +114,7 @@ export default function GoogleMaps() {
         setValue(newValue);
       }}
       onInputChange={(event, newInputValue) => {
+        console.log(newInputValue)
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
