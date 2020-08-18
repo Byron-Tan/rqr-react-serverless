@@ -117,7 +117,7 @@ class account extends Component {
       educationLevel: "",
       communication: '',
       self_confidence: '',
-      teamwork: '',
+      team_work: '',
       leadership: '',
       self_motivation: '',
       educationInstitution: "",
@@ -230,6 +230,36 @@ class account extends Component {
     return `${value}°C`;
   }
 
+  handleSliderChange = (event, newValue) => {
+    this.setState({
+      communication: newValue,
+    });
+  }
+
+  handleSliderChangeLeaderShip = (event, newValue) => {
+    this.setState({
+      leadership: newValue,
+    });
+  }
+
+  handleSliderChangeSelfConfidence = (event, newValue) => {
+    this.setState({
+      self_confidence: newValue,
+    });
+  }
+
+  handleSliderChangeSelfMotivation = (event, newValue) => {
+    this.setState({
+      self_motivation: newValue,
+    });
+  }
+
+  handleSliderChangeTeamWork = (event, newValue) => {
+    this.setState({
+      team_work: newValue,
+    });
+  }
+
   valuetextCommunication = (value) => {
     this.setState({
       communication: value,
@@ -340,6 +370,7 @@ class account extends Component {
       fieldsPreviousEmployement: objArr
     })
   }
+
 
   removeFields = (index) => {
     let obj = [...this.state.fields]
@@ -457,6 +488,7 @@ class account extends Component {
       cards: cards
     })
   }
+
 
   updateFormValues = (event) => {
     console.log(this.state)
@@ -888,6 +920,13 @@ class account extends Component {
                             Communication
                     </Typography>
                           <Slider
+                            name='communication'
+                            value={typeof this.state.communication === 'number' ? this.state.communication : 0}
+                            onChange={this.handleSliderChange}
+                            aria-labelledby="input-slider"
+                            getAriaValueText={this.state.communication}
+                          />
+                          {/* <Slider
                             margin="dense"
                             name='communication'
                             defaultValue={10}
@@ -898,7 +937,7 @@ class account extends Component {
                             min={1}
                             max={100}
                             valueLabelDisplay="auto"
-                          />
+                          /> */}
                         </Grid>
 
                         <Grid item md={12} xs={12}>
@@ -906,6 +945,12 @@ class account extends Component {
                             Self confidence
                     </Typography>
                           <Slider
+                            name='self_confidence'
+                            value={typeof this.state.self_confidence === 'number' ? this.state.self_confidence : 0}
+                            onChange={this.handleSliderChangeSelfConfidence}
+                            aria-labelledby="input-slider"
+                          />
+                          {/* <Slider
                             margin="dense"
                             name='self_confidence'
                             defaultValue={10}
@@ -916,13 +961,19 @@ class account extends Component {
                             min={1}
                             max={100}
                             valueLabelDisplay="auto"
-                          />
+                          /> */}
                         </Grid>
                         <Grid item md={12} xs={12}>
                           <Typography id="discrete-slider-small-steps" gutterBottom>
                             Team work
                     </Typography>
                           <Slider
+                            name='team_work'
+                            value={typeof this.state.team_work === 'number' ? this.state.team_work : 0}
+                            onChange={this.handleSliderChangeTeamWork}
+                            aria-labelledby="input-slider"
+                          />
+                          {/* <Slider
                             margin="dense"
                             name='team_work'
                             defaultValue={10}
@@ -933,13 +984,19 @@ class account extends Component {
                             min={1}
                             max={100}
                             valueLabelDisplay="auto"
-                          />
+                          /> */}
                         </Grid>
                         <Grid item md={12} xs={12}>
                           <Typography id="discrete-slider-small-steps" gutterBottom>
                             Leadership
                     </Typography>
                           <Slider
+                            name='leadership'
+                            value={typeof this.state.leadership === 'number' ? this.state.leadership : 0}
+                            onChange={this.handleSliderChangeLeaderShip}
+                            aria-labelledby="input-slider"
+                          />
+                          {/* <Slider
                             margin="dense"
                             name='leadership'
                             defaultValue={10}
@@ -950,13 +1007,19 @@ class account extends Component {
                             min={1}
                             max={100}
                             valueLabelDisplay="auto"
-                          />
+                          /> */}
                         </Grid>
                         <Grid item md={12} xs={12}>
                           <Typography id="discrete-slider-small-steps" gutterBottom>
                             Self motivation
                     </Typography>
                           <Slider
+                            name='self_motivation'
+                            value={typeof this.state.self_motivation === 'number' ? this.state.self_motivation : 0}
+                            onChange={this.handleSliderChangeSelfMotivation}
+                            aria-labelledby="input-slider"
+                          />
+                          {/* <Slider
                             margin="dense"
                             name='self_motivation'
                             defaultValue={10}
@@ -967,7 +1030,7 @@ class account extends Component {
                             min={1}
                             max={100}
                             valueLabelDisplay="auto"
-                          />
+                          /> */}
                         </Grid>
                       </Grid>
                     </CardContent>

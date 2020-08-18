@@ -13,7 +13,7 @@ import {
 
 
 const CatInputs = (props) => {
-    console.log(props)
+    // console.log(props)
 
 
 

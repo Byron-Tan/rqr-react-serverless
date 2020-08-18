@@ -17,7 +17,7 @@ const CatInputs = (props) => {
 
     return (
         props.fields.map((val, idx) => {
-            console.log(val)
+            // console.log(val)
             let dateId = `date-${idx}`,
                 employer = `employer-${idx}`,
                 position_of_contractor = `position_of_contractor-${idx}`,
