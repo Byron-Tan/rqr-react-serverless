@@ -461,7 +461,9 @@ class account extends Component {
       // currentVisaType: this.state.current_work_visa_type,
       // currentVisaExpiry: this.state.current_work_visa_expiry,
       // highest_education: this.state.highest_education,
-      education: this.state.fields,
+      // education: this.state.fields,
+      // employment: this.state.fieldsEmployement,
+      // previous_employment: this.state.fieldsPreviousEmployement,
     };
     console.log(formRequest);
     // event.preventDefault();
@@ -575,7 +577,6 @@ class account extends Component {
                       label="Date of Birth"
                       type="date"
                       id="dateOfBirth"
-                      defaultValue="2017-05-24"
                       onChange={this.handleChange}
                       InputLabelProps={{
                         shrink: true,
@@ -752,7 +753,6 @@ class account extends Component {
                           label="Date of expiry"
                           type="date"
                           id="current_work_visa_expiry"
-                          defaultValue="2017-05-24"
                           onChange={this.handleChange}
                           InputLabelProps={{
                             shrink: true,
@@ -810,9 +810,9 @@ class account extends Component {
                                 label="TAFE"
                               />
                               <FormControlLabel
-                                value="Univercity"
+                                value="University"
                                 control={<Radio color="primary" />}
-                                label="Univercity"
+                                label="University"
                               />
                               <FormControlLabel
                                 value="other"
