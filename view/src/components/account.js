@@ -14,7 +14,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
 import FormControl from "@material-ui/core/FormControl";
 import FieldsPreviousEmployement from "./fieldsPreviousEmployement";
-// import { Container as default } from './Container'
+import Checkbox from "@material-ui/core/Checkbox";
 import Example from "./example";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -33,7 +33,7 @@ import Slider from "@material-ui/core/Slider";
 
 import clsx from "clsx";
 
-import axios from "axios";
+import instance from "../api/instance";
 import { authMiddleWare } from "../util/auth";
 import GoogleMaps from "../common/components/googleMaps";
 
@@ -100,6 +100,11 @@ const styles = (theme) => ({
   },
 });
 
+const marks = [
+  { value: 0, label: "0" },
+  { value: 100, label: "100" },
+];
+
 class account extends Component {
   constructor(props) {
     super(props);
@@ -108,6 +113,8 @@ class account extends Component {
       firstName: "",
       lastName: "",
       email: "",
+      declaration: "",
+      declaration_date: new Date(),
       phoneNumber: "",
       username: "",
       profilePicture: "",
@@ -197,16 +204,16 @@ class account extends Component {
   UNSAFE_componentWillMount = () => {
     authMiddleWare(this.props.history);
     const authToken = localStorage.getItem("AuthToken");
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
-    axios
+    instance.defaults.headers.common = { Authorization: `${authToken}` };
+    instance
       .get("/user")
       .then((response) => {
         this.setState({
-          firstName: response.data.userCredentials.firstName,
-          lastName: response.data.userCredentials.lastName,
-          email: response.data.userCredentials.email,
-          phoneNumber: response.data.userCredentials.phoneNumber,
-          username: response.data.userCredentials.username,
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
+          email: response.data.email,
+          phoneNumber: response.data.phoneNumber,
+          username: response.data.username,
           uiLoading: false,
         });
       })
@@ -217,6 +224,12 @@ class account extends Component {
         console.log(error);
         this.setState({ errorMsg: "Error in retrieving the data" });
       });
+  };
+
+  handleChangeDeclaration = (event) => {
+    this.setState({
+      declaration: event.target.checked,
+    });
   };
 
   handleChange = (event) => {
@@ -249,28 +262,6 @@ class account extends Component {
     });
     return `${value}°C`;
   };
-
-  // valuetextSelfConfidence = (value) => {
-  //   this.setState({
-  //     self_confidence: value,
-  //   });
-  // }
-  // valuetextTeamWork = (value) => {
-  //   this.setState({
-  //     teamwork: value,
-  //   });
-  // }
-  // valuetextLeaderShip = (value) => {
-  //   this.setState({
-  //     leadership: value,
-  //   });
-  // }
-
-  // valuetextSelfMotivation = (value) => {
-  //   this.setState({
-  //     self_motivation: value,
-  //   });
-  // }
 
   handleEmploymentChange = (e) => {
     if (["date", "employer", "position"].includes(e.target.className)) {
@@ -307,8 +298,8 @@ class account extends Component {
     let formData = new FormData();
     formData.append("image", this.state.image);
     formData.append("content", this.state.content);
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
-    axios
+    instance.defaults.headers.common = { Authorization: `${authToken}` };
+    instance
       .post("/user/image", formData, {
         headers: {
           "content-type": "multipart/form-data",
@@ -321,7 +312,6 @@ class account extends Component {
         if (error.response.status === 403) {
           this.props.history.push("/login");
         }
-        console.log(error);
         this.setState({
           uiLoading: false,
           imageError: "Error in posting the data",
@@ -414,7 +404,6 @@ class account extends Component {
     } else {
       obj[index].qualification_gained = value;
     }
-    // obj[index].extraction_field_name = value
     this.setState({
       fieldsEmployement: obj,
     });
@@ -504,19 +493,20 @@ class account extends Component {
       interest: this.state.hobbies,
       priorities: this.state.priorities,
       profileComplete: "true",
-      hired: "false",
+      declaration: this.state.declaration,
+      declaration_date: this.state.declaration_date,
+      role: 1,
     };
-    console.log(formRequest);
     event.preventDefault();
     this.setState({ buttonLoading: true });
     authMiddleWare(this.props.history);
     const authToken = localStorage.getItem("AuthToken");
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
-    axios
+    instance.defaults.headers.common = { Authorization: `${authToken}` };
+    instance
       .post("/user", formRequest)
       .then(() => {
         this.setState({ buttonLoading: false });
-        this.props.history.push("/");
+        window.location.reload();
       })
       .catch((error) => {
         if (error.response.status === 403) {
@@ -530,7 +520,6 @@ class account extends Component {
 
   render() {
     const { classes, ...rest } = this.props;
-    // const { employment } = this.state.employment;
     if (this.state.uiLoading === true) {
       return (
         <main className={classes.content}>
@@ -941,6 +930,7 @@ class account extends Component {
                         characteristics.
                       </Typography>
                       <Divider />
+                      <br />
                       <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
                           <Typography
@@ -956,6 +946,8 @@ class account extends Component {
                                 ? this.state.communication
                                 : 0
                             }
+                            marks={marks}
+                            valueLabelDisplay="auto"
                             onChange={this.handleSliderChange}
                             aria-labelledby="input-slider"
                           />
@@ -975,6 +967,8 @@ class account extends Component {
                                 ? this.state.self_confidence
                                 : 0
                             }
+                            marks={marks}
+                            valueLabelDisplay="auto"
                             onChange={this.handleSliderChangeSelfConfidence}
                             aria-labelledby="input-slider"
                           />
@@ -993,6 +987,8 @@ class account extends Component {
                                 ? this.state.team_work
                                 : 0
                             }
+                            marks={marks}
+                            valueLabelDisplay="auto"
                             onChange={this.handleSliderChangeTeamWork}
                             aria-labelledby="input-slider"
                           />
@@ -1011,6 +1007,8 @@ class account extends Component {
                                 ? this.state.leadership
                                 : 0
                             }
+                            marks={marks}
+                            valueLabelDisplay="auto"
                             onChange={this.handleSliderChangeLeaderShip}
                             aria-labelledby="input-slider"
                           />
@@ -1029,6 +1027,8 @@ class account extends Component {
                                 ? this.state.self_motivation
                                 : 0
                             }
+                            marks={marks}
+                            valueLabelDisplay="auto"
                             onChange={this.handleSliderChangeSelfMotivation}
                             aria-labelledby="input-slider"
                           />
@@ -1106,6 +1106,46 @@ class account extends Component {
                       </CardContent>
                     </Card>
                   </div>
+                  <div md={12} xs={12} className={classes.section2}>
+                    <Card className={classes.width100} variant="outlined">
+                      <CardContent>
+                        <Grid
+                          container
+                          spacing={3}
+                          className="mt-3"
+                          className="margin-top-15px"
+                        >
+                          <Grid item md={6} xs={12}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={this.state.declaration}
+                                  onChange={this.handleChangeDeclaration}
+                                  name="checkedB"
+                                  color="primary"
+                                />
+                              }
+                              label="I certify that information given on this form is correct"
+                            />
+                          </Grid>
+                          <Grid item md={6} xs={12}>
+                            <TextField
+                              required
+                              fullWidth
+                              name="declaration_date"
+                              label="Date"
+                              type="date"
+                              defaultValue={this.state.declaration_date}
+                              onChange={this.handleChange}
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
+                      </CardContent>
+                    </Card>
+                  </div>
                   <CardActions />
                 </Grid>
               </CardContent>
@@ -1120,7 +1160,8 @@ class account extends Component {
             disabled={
               this.state.buttonLoading ||
               !this.state.firstName ||
-              !this.state.lastName
+              !this.state.lastName ||
+              !this.state.declaration
             }
           >
             Save details

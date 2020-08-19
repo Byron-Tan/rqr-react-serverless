@@ -67,7 +67,7 @@ const CatInputs = (props) => {
           <TextField
             fullWidth
             className="mb-24"
-            label="Position of contractor"
+            label="Job Title"
             id={position_of_contractor}
             onChange={(e) => {
               changeHandlerFieldName(e, "position_of_contractor", idx);

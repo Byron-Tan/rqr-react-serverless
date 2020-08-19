@@ -5,10 +5,13 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import clsx from "clsx";
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    minWidth: 500,
+    marginTop: 100,
+    marginLeft: 50,
   },
   bullet: {
     display: "inline-block",
@@ -23,25 +26,41 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ThankYou() {
+export default function OutlinedCard() {
   const classes = useStyles();
+  const bull = <span className={classes.bullet}>•</span>;
 
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          Thank you for registering your details!
-        </Typography>
-
-        <Typography variant="body2" component="p">
-          we will contact you if you've been short-listed via email to come in
-          for an interview! GOOD LUCK!
-        </Typography>
-      </CardContent>
-    </Card>
+    <main className={classes.content}>
+      <Card className={classes.root} variant="outlined">
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            From RQR
+          </Typography>
+          <Typography variant="h5" component="h2">
+            Thank{bull}You!
+          </Typography>
+          <Typography
+            className={classes.pos}
+            color="textSecondary"
+          ></Typography>
+          <Typography variant="body2" component="p">
+            We'll be in touch if you've been short-listed!
+            <br />
+            <br />
+            {"Good Luck!"}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" hred="www.rqr.com.au">
+            Learn More
+          </Button>
+        </CardActions>
+      </Card>
+    </main>
   );
 }

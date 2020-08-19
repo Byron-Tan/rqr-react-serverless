@@ -10,8 +10,10 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import withStyles from "@material-ui/core/styles/withStyles";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import PropTypes from "prop-types";
+import NumberFormat from "react-number-format";
 
-import axios from "axios";
+import instance from "../api/instance";
 
 const styles = (theme) => ({
   paper: {
@@ -79,14 +81,14 @@ class signup extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-    axios
+    instance
       .post("/signup", newUserData)
       .then((response) => {
         localStorage.setItem("AuthToken", `Bearer ${response.data.token}`);
         this.setState({
           loading: false,
         });
-        this.props.history.push("/dashboard");
+        this.props.history.push("/");
       })
       .catch((error) => {
         this.setState({
@@ -151,7 +153,6 @@ class signup extends Component {
                   onChange={this.handleChange}
                 />
               </Grid>
-
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
@@ -179,12 +180,12 @@ class signup extends Component {
                   onChange={this.handleChange}
                 />
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
                   required
                   fullWidth
+                  isNumericString
                   name="password"
                   label="Password"
                   type="password"

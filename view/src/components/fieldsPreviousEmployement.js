@@ -82,7 +82,7 @@ const CatInputs = (props) => {
             <TextField
               fullWidth
               className="mb-24"
-              label="Position of contractor"
+              label="Job Title"
               id={position_of_contractor}
               value={val.position_of_contractor}
               onChange={(e) => {

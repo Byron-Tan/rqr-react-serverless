@@ -20,7 +20,7 @@ import CardContent from "@material-ui/core/CardContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 
-import axios from "axios";
+import instance from "../api/instance";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { authMiddleWare } from "../util/auth";
@@ -121,10 +121,10 @@ class goal extends Component {
   UNSAFE_componentWillMount = () => {
     authMiddleWare(this.props.history);
     const authToken = localStorage.getItem("AuthToken");
-    axios.defaults.headers.common = {
+    instance.defaults.headers.common = {
       Authorization: `${authToken}`,
     };
-    axios
+    instance
       .get("/goals")
       .then((response) => {
         this.setState({
@@ -140,9 +140,9 @@ class goal extends Component {
   deleteGoalHandler(data) {
     authMiddleWare(this.props.history);
     const authToken = localStorage.getItem("AuthToken");
-    axios.defaults.headers.common = { Authorization: `${authToken}` };
+    instance.defaults.headers.common = { Authorization: `${authToken}` };
     let goalId = data.goal.goalId;
-    axios
+    instance
       .delete(`/goal/${goalId}`)
       .then(() => {
         window.location.reload();
@@ -246,8 +246,8 @@ class goal extends Component {
         };
       }
       const authToken = localStorage.getItem("AuthToken");
-      axios.defaults.headers.common = { Authorization: `${authToken}` };
-      axios(options)
+      instance.defaults.headers.common = { Authorization: `${authToken}` };
+      instance(options)
         .then(() => {
           this.setState({ open: false });
           window.location.reload();

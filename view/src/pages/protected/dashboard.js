@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import instance from "../../api/instance";
 
 //components
 import Account from "../../components/account";
@@ -68,15 +68,15 @@ const styles = (theme) => ({
 
 class dashboard extends Component {
   state = {
-    render: false,
+    render: "",
   };
 
   loadAccountPage = (event) => {
-    this.setState({ render: true });
+    this.setState({ render: "account" });
   };
 
   loadGoalPage = (event) => {
-    this.setState({ render: false });
+    this.setState({ render: "goals" });
   };
 
   logoutHandler = (event) => {
@@ -101,30 +101,28 @@ class dashboard extends Component {
   componentDidMount = () => {
     authMiddleWare(this.props.history);
     const authToken = localStorage.getItem("AuthToken");
-    axios.defaults.headers.common = {
+    instance.defaults.headers.common = {
       Authorization: `${authToken}`,
     };
-    axios
+    instance
       .get("/user")
       .then((response) => {
         this.setState({
-          firstName: response.data.userCredentials.firstName,
-          lastName: response.data.userCredentials.lastName,
-          email: response.data.userCredentials.email,
-          phoneNumber: response.data.userCredentials.phoneNumber,
-          username: response.data.userCredentials.username,
-          profileComplete: response.data.userCredentials.profileComplete,
-          role: response.data.userCredentials.role,
-          hired: response.data.userCredentials.hired,
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
+          email: response.data.email,
+          phoneNumber: response.data.phoneNumber,
+          username: response.data.username,
+          profileComplete: response.data.profileComplete,
+          role: response.data.role,
           uiLoading: false,
-          profilePicture: response.data.userCredentials.imageUrl,
+          profilePicture: response.data.imageUrl,
         });
       })
       .catch((error) => {
         if (error.response.status === 403) {
           this.props.history.push("/login");
         }
-        console.log(error);
         this.setState({ errorMsg: "Error in retrieving the data" });
       });
   };
@@ -172,7 +170,7 @@ class dashboard extends Component {
               <Alert severity="info">Please Complete Account Information</Alert>
             ) : null}
             <List>
-              {this.state.role !== 0 ? (
+              {this.state.role !== 1 ? (
                 <ListItem button key="Goals" onClick={this.loadGoalPage}>
                   <ListItemIcon>
                     {" "}
@@ -181,13 +179,15 @@ class dashboard extends Component {
                   <ListItemText primary="Goals" />
                 </ListItem>
               ) : null}
-              <ListItem button key="Account" onClick={this.loadAccountPage}>
-                <ListItemIcon>
-                  {" "}
-                  <AccountBoxIcon />{" "}
-                </ListItemIcon>
-                <ListItemText primary="Account" />
-              </ListItem>
+              {this.state.profileComplete === "false" ? (
+                <ListItem button key="Account" onClick={this.loadAccountPage}>
+                  <ListItemIcon>
+                    {" "}
+                    <AccountBoxIcon />{" "}
+                  </ListItemIcon>
+                  <ListItemText primary="Account" />
+                </ListItem>
+              ) : null}
               <ListItem button key="Logout" onClick={this.logoutHandler}>
                 <ListItemIcon>
                   {" "}
@@ -199,12 +199,16 @@ class dashboard extends Component {
           </Drawer>
           <div>
             {" "}
-            {this.state.render ? <Account /> : <Goal />}
-            {this.state.hired === "false" &&
-            this.state.profileComplete === "true" ? (
-              <ThankYou />
+            {this.state.render === "" ? null : this.state.render ===
+              "account" ? (
+              <Account />
+            ) : this.state.render === "goals" ? (
+              <Goal />
             ) : null}
           </div>
+          {this.state.profileComplete === "true" ? (
+            <ThankYou firstname={this.state.firstName} />
+          ) : null}
         </div>
       );
     }

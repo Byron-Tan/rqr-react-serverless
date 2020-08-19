@@ -72,6 +72,34 @@ const CatInputs = (props) => {
         >
           <Grid item md={4} xs={12}>
             <TextField
+              fullWidth
+              className="mb-24"
+              label="College Name"
+              id={collegeNameId}
+              value={val.college_name}
+              onChange={(e) => {
+                changeHandlerFieldName(e, "college_name", idx);
+              }}
+              name={collegeNameId}
+              data-id={idx}
+            />
+          </Grid>
+          <Grid item md={4} xs={12}>
+            <TextField
+              fullWidth
+              className="mb-24"
+              label="Qualification gained"
+              id={qualificationId}
+              value={val.qualification_gained}
+              onChange={(e) => {
+                changeHandlerFieldName(e, "qualification_gained", idx);
+              }}
+              name={qualificationId}
+              data-id={idx}
+            />
+          </Grid>
+          <Grid item md={4} xs={12}>
+            <TextField
               required
               fullWidth
               name={dateId}
@@ -86,34 +114,6 @@ const CatInputs = (props) => {
               InputLabelProps={{
                 shrink: true,
               }}
-            />
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <TextField
-              fullWidth
-              className="mb-24"
-              label="College Name"
-              id={collegeNameId}
-              value={val.college_name}
-              onChange={(e) => {
-                changeHandlerFieldName(e, "college_name", idx);
-              }}
-              name={collegeNameId}
-              data-id={idx}
-            />
-          </Grid>
-          <Grid item md={3} xs={12}>
-            <TextField
-              fullWidth
-              className="mb-24"
-              label="Qualification gained"
-              id={qualificationId}
-              value={val.qualification_gained}
-              onChange={(e) => {
-                changeHandlerFieldName(e, "qualification_gained", idx);
-              }}
-              name={qualificationId}
-              data-id={idx}
             />
           </Grid>
           {idx !== 0 && (

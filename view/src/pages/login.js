@@ -12,7 +12,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Container from "@material-ui/core/Container";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import axios from "axios";
+import instance from "../api/instance";
 
 const styles = (theme) => ({
   paper: {
@@ -54,10 +54,10 @@ class login extends Component {
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
+  componenetDidUpdate(prevProps) {
+    if (prevProps.UI.errors) {
       this.setState({
-        errors: nextProps.UI.errors,
+        errors: prevProps.UI.errors,
       });
     }
   }
@@ -75,7 +75,7 @@ class login extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-    axios
+    instance
       .post("/login", userData)
       .then((response) => {
         localStorage.setItem("AuthToken", `Bearer ${response.data.token}`);
