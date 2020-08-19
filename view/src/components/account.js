@@ -14,6 +14,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import IconButton from "@material-ui/core/IconButton";
 import FormControl from '@material-ui/core/FormControl';
 import FieldsPreviousEmployement from './fieldsPreviousEmployement'
+import Checkbox from '@material-ui/core/Checkbox';
 // import { Container as default } from './Container'
 import Example from './example'
 import { DndProvider } from 'react-dnd'
@@ -121,6 +122,7 @@ class account extends Component {
       leadership: '',
       self_motivation: '',
       educationInstitution: "",
+      declaration: '',
       looking_to_achieve_role: '',
       goals_achieve_from_career: '',
       hobbies: '',
@@ -128,6 +130,7 @@ class account extends Component {
       fieldsEmployement: [{ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '', notice_required: '' }],
       fieldsPreviousEmployement: [{ date: "", employer: "", position_of_contractor: '', salary: '', reason_for_leaving: '' }],
       educationDate: "",
+      todayDate: new Date(),
       cards: [],
       employment: [
         {
@@ -416,6 +419,12 @@ class account extends Component {
     })
     console.log('index in set field name', index)
     console.log('value in set field name', value)
+  }
+
+  handleChangeDeclaration = (event) => {
+    this.setState({
+      declaration: event.target.checked
+    })
   }
 
   setFieldNameEmployementFun = (value, field_name, index) => {
@@ -924,7 +933,7 @@ class account extends Component {
                             value={typeof this.state.communication === 'number' ? this.state.communication : 0}
                             onChange={this.handleSliderChange}
                             aria-labelledby="input-slider"
-                            getAriaValueText={this.state.communication}
+                          // getAriaValueText={this.state.communication}
                           />
                           {/* <Slider
                             margin="dense"
@@ -1096,6 +1105,44 @@ class account extends Component {
                     </Card>
 
                   </div>
+                  <div md={12} xs={12} className={classes.section2}>
+                    <Card className={classes.width100} variant="outlined">
+                      <CardContent>
+                        <Grid container spacing={3} className='mt-3' className='margin-top-15px'>
+
+                          <Grid item md={6} xs={12}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={this.state.declaration}
+                                  onChange={this.handleChangeDeclaration}
+                                  name="checkedB"
+                                  color="primary"
+                                />
+                              }
+                              label="I certify that information given on this form is correct"
+                            />
+                          </Grid>
+                          <Grid item md={6} xs={12}>
+                            <TextField
+
+                              required
+                              fullWidth
+                              name='todayDate'
+                              label="Date"
+                              type="date"
+                              defaultValue={this.state.todayDate}
+                              onChange={this.handleChange}
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
+                      </CardContent>
+                    </Card>
+                  </div>
+
                   <CardActions />
                 </Grid>
               </CardContent>
