@@ -140,7 +140,6 @@ class signup extends Component {
                   onChange={this.handleChange}
                 />
               </Grid>
-
               <Grid item xs={12} sm={6}>
                 <TextField
                   variant="outlined"
