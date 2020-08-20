@@ -5,7 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import clsx from "clsx";
+import AddToHomeScreenIcon from "@material-ui/icons/AddToHomeScreen";
 
 const useStyles = makeStyles({
   root: {
@@ -23,6 +23,9 @@ const useStyles = makeStyles({
   },
   pos: {
     marginBottom: 12,
+  },
+  button: {
+    textTransform: "none",
   },
 });
 
@@ -49,15 +52,22 @@ export default function OutlinedCard() {
             color="textSecondary"
           ></Typography>
           <Typography variant="body2" component="p">
-            We'll be in touch if you've been short-listed!
+            Application is now being processed
             <br />
             <br />
             {"Good Luck!"}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" hred="www.rqr.com.au">
-            Learn More
+          <Button
+            className={classes.button}
+            size="small"
+            href="https://rqr.com.au"
+          >
+            <AddToHomeScreenIcon color="primary" />{" "}
+            <Typography variant="body2" component="p">
+              Learn More About us!
+            </Typography>
           </Button>
         </CardActions>
       </Card>

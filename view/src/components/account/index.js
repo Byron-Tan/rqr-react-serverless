@@ -33,9 +33,9 @@ import Slider from "@material-ui/core/Slider";
 
 import clsx from "clsx";
 
-import instance from "../api/instance";
-import { authMiddleWare } from "../util/auth";
-import GoogleMaps from "../common/components/googleMaps";
+import instance from "../../api/instance";
+import { authMiddleWare } from "../../util/auth";
+import GoogleMaps from "./googleMaps";
 
 const styles = (theme) => ({
   content: {
@@ -105,6 +105,32 @@ const marks = [
   { value: 100, label: "100" },
 ];
 
+function formatDate() {
+  var d = new Date(),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [year, month, day].join("-");
+}
+
+const dateNow = new Date(); // Creating a new date object with the current date and time
+const year = dateNow.getFullYear(); // Getting current year from the created Date object
+const monthWithOffset = dateNow.getUTCMonth() + 1; // January is 0 by default in JS. Offsetting +1 to fix date for calendar.
+const month = // Setting current Month number from current Date object
+  monthWithOffset.toString().length < 2 // Checking if month is < 10 and pre-prending 0 to adjust for date input.
+    ? `0${monthWithOffset}`
+    : monthWithOffset;
+const date =
+  dateNow.getUTCDate().toString().length < 2 // Checking if date is < 10 and pre-prending 0 if not to adjust for date input.
+    ? `0${dateNow.getUTCDate()}`
+    : dateNow.getUTCDate();
+
+const materialDateInput = `${date}-${month}-${year}`; // combining to format for defaultValue or value attribute of material <TextField>
+
 class account extends Component {
   constructor(props) {
     super(props);
@@ -114,7 +140,7 @@ class account extends Component {
       lastName: "",
       email: "",
       declaration: "",
-      declaration_date: new Date(),
+      declaration_date: materialDateInput,
       phoneNumber: "",
       username: "",
       profilePicture: "",
@@ -132,7 +158,8 @@ class account extends Component {
       fields: [{ date: "", college_name: "", certification_gained: "" }],
       fieldsEmployement: [
         {
-          date: "",
+          startDate: "",
+          endDate: "",
           employer: "",
           position_of_contractor: "",
           salary: "",
@@ -142,7 +169,8 @@ class account extends Component {
       ],
       fieldsPreviousEmployement: [
         {
-          date: "",
+          startDate: "",
+          endDate: "",
           employer: "",
           position_of_contractor: "",
           salary: "",
@@ -164,7 +192,7 @@ class account extends Component {
       australian_resident: "yes",
       highest_education: "cerificate",
       highest_education_value: "cerificate",
-      vehicle_owner: "yes",
+      vehicle_access: "yes",
       current_work_visa: "yes",
       workVisa: "",
       visaType: "",
@@ -330,7 +358,8 @@ class account extends Component {
   addFieldsEmployement = () => {
     let objArr = [...this.state.fieldsEmployement];
     objArr.push({
-      date: "",
+      startDate: "",
+      endDate: "",
       employer: "",
       position_of_contractor: "",
       salary: "",
@@ -345,7 +374,8 @@ class account extends Component {
   addFieldsPreviousEmployement = () => {
     let objArr = [...this.state.fieldsPreviousEmployement];
     objArr.push({
-      date: "",
+      startDate: "",
+      endDate: "",
       employer: "",
       position_of_contractor: "",
       salary: "",
@@ -389,8 +419,10 @@ class account extends Component {
 
   setFieldNameEmployementFun = (value, field_name, index) => {
     let obj = [...this.state.fieldsEmployement];
-    if (field_name === "date") {
-      obj[index].date = value;
+    if (field_name === "startDate") {
+      obj[index].startDate = value;
+    } else if (field_name === "endDate") {
+      obj[index].endDate = value;
     } else if (field_name === "employer") {
       obj[index].employer = value;
     } else if (field_name === "position_of_contractor") {
@@ -411,8 +443,10 @@ class account extends Component {
 
   setFieldNamePreviousEmployementFun = (value, field_name, index) => {
     let obj = [...this.state.fieldsPreviousEmployement];
-    if (field_name === "date") {
-      obj[index].date = value;
+    if (field_name === "startDate") {
+      obj[index].startDate = value;
+    } else if (field_name === "endDate") {
+      obj[index].endDate = value;
     } else if (field_name === "employer") {
       obj[index].employer = value;
     } else if (field_name === "position_of_contractor") {
@@ -474,7 +508,7 @@ class account extends Component {
       address: this.state.address,
       startDate: this.state.available_start_date,
       funnel: this.state.howDidYouHearAboutUs,
-      vehicleOwner: this.state.vehicle_owner,
+      vehicleOwner: this.state.vehicle_access,
       resident: this.state.australian_resident,
       currentWorkVisa: this.state.current_work_visa,
       currentVisaType: this.state.current_work_visa_type,
@@ -679,11 +713,11 @@ class account extends Component {
                     </TextField>
                   </Grid>
                   <Grid item md={6} xs={12}>
-                    <FormLabel component="legend">Vehicle owner</FormLabel>
+                    <FormLabel component="legend">Access to Vehicle</FormLabel>
                     <RadioGroup
                       aria-label="Vehicle owner"
-                      name="vehicle_owner"
-                      value={this.state.vehicle_owner}
+                      name="vehicle_access"
+                      value={this.state.vehicle_access}
                       onChange={this.handleChange}
                     >
                       <FormControlLabel
@@ -812,47 +846,53 @@ class account extends Component {
                           </IconButton>
                         </Typography>
                         <Divider />
-                        <div className="education-title">
-                          <div className="mr-10px">
-                            Highest Education achieved:
-                          </div>
-
-                          <FormControl component="fieldset">
-                            <RadioGroup
-                              row
-                              name="highest_education"
-                              value={this.state.highest_education}
-                              defaultValue="certificate"
-                              onChange={this.handleChange}
-                            >
-                              <FormControlLabel
-                                value="certificate"
-                                control={<Radio color="primary" />}
-                                label="Certificate"
-                              />
-                              <FormControlLabel
-                                value="year12"
-                                control={<Radio color="primary" />}
-                                label="Year 12"
-                              />
-                              <FormControlLabel
-                                value="tafe"
-                                control={<Radio color="primary" />}
-                                label="TAFE"
-                              />
-                              <FormControlLabel
-                                value="University"
-                                control={<Radio color="primary" />}
-                                label="University"
-                              />
-                              <FormControlLabel
-                                value="other"
-                                control={<Radio color="primary" />}
-                                label="Other"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </div>
+                        <br />
+                        <Typography
+                          className="padding-12px"
+                          margin="dense"
+                          align="center"
+                          display="inline"
+                        >
+                          Highest Education achieved:
+                        </Typography>
+                        <br />
+                        <br />
+                        <FormControl component="fieldset">
+                          <RadioGroup
+                            row
+                            name="highest_education"
+                            value={this.state.highest_education}
+                            defaultValue="certificate"
+                            onChange={this.handleChange}
+                          >
+                            <FormControlLabel
+                              value="certificate"
+                              control={<Radio color="primary" />}
+                              label="Certificate"
+                            />
+                            <FormControlLabel
+                              value="year12"
+                              control={<Radio color="primary" />}
+                              label="Year 12"
+                            />
+                            <FormControlLabel
+                              value="tafe"
+                              control={<Radio color="primary" />}
+                              label="TAFE"
+                            />
+                            <FormControlLabel
+                              value="University"
+                              control={<Radio color="primary" />}
+                              label="University"
+                            />
+                            <FormControlLabel
+                              value="other"
+                              control={<Radio color="primary" />}
+                              label="Other"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                        <br />
                         <FieldInputs
                           removeFields={this.removeFields}
                           className={classes.section2}
@@ -873,8 +913,10 @@ class account extends Component {
                           display="inline"
                         >
                           Employment History
+                          <br />
                         </Typography>
                         <Divider />
+                        <br />
                         <FieldInputsEmployement
                           className={classes.padding15px}
                           addField={this.addFieldsEmployement}
@@ -929,14 +971,12 @@ class account extends Component {
                         Please rate yourself on following skills and
                         characteristics.
                       </Typography>
+                      <br />
                       <Divider />
                       <br />
                       <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
-                          <Typography
-                            id="discrete-slider-small-steps"
-                            gutterBottom
-                          >
+                          <Typography id="discrete-slider-small-steps">
                             Communication
                           </Typography>
                           <Slider
@@ -952,7 +992,6 @@ class account extends Component {
                             aria-labelledby="input-slider"
                           />
                         </Grid>
-
                         <Grid item md={12} xs={12}>
                           <Typography
                             id="discrete-slider-small-steps"
@@ -1050,9 +1089,8 @@ class account extends Component {
                         Personal
                       </Typography>
                       <Divider />
-
                       <Grid container spacing={3}>
-                        <Grid item md={8} xs={12}>
+                        <Grid item xs={12}>
                           <TextField
                             fullWidth
                             label="What are you looking to achieve from this role?"
@@ -1060,9 +1098,12 @@ class account extends Component {
                             name="looking_to_achieve_role"
                             value={this.state.looking_to_achieve_role}
                             onChange={this.handleChange}
+                            inputProps={{
+                              maxlength: 500,
+                            }}
                           />
                         </Grid>
-                        <Grid item md={8} xs={12}>
+                        <Grid item xs={12}>
                           <TextField
                             fullWidth
                             label="What goals/ambitions do you aim to achieve from your career?"
@@ -1070,9 +1111,12 @@ class account extends Component {
                             name="goals_achieve_from_career"
                             value={this.state.goals_achieve_from_career}
                             onChange={this.handleChange}
+                            inputProps={{
+                              maxlength: 500,
+                            }}
                           />
                         </Grid>
-                        <Grid item md={8} xs={12}>
+                        <Grid item xs={12}>
                           <TextField
                             fullWidth
                             label="What are your personal interest and hobbies?"
@@ -1080,6 +1124,9 @@ class account extends Component {
                             name="hobbies"
                             value={this.state.hobbies}
                             onChange={this.handleChange}
+                            inputProps={{
+                              maxlength: 500,
+                            }}
                           />
                         </Grid>
                       </Grid>
@@ -1094,10 +1141,11 @@ class account extends Component {
                           align="center"
                           display="inline"
                         >
-                          What you are looking for in a job?(Number in order of
-                          importance - (1) being highest priority)
+                          What you are looking for in a job? drag and drop the
+                          highest priority to the top!
                         </Typography>
                         <Divider />
+                        <br />
                         <div className="margin-top-15px">
                           <DndProvider backend={HTML5Backend}>
                             <Example setCardObj={this.setCard} />
@@ -1126,20 +1174,6 @@ class account extends Component {
                                 />
                               }
                               label="I certify that information given on this form is correct"
-                            />
-                          </Grid>
-                          <Grid item md={6} xs={12}>
-                            <TextField
-                              required
-                              fullWidth
-                              name="declaration_date"
-                              label="Date"
-                              type="date"
-                              defaultValue={this.state.declaration_date}
-                              onChange={this.handleChange}
-                              InputLabelProps={{
-                                shrink: true,
-                              }}
                             />
                           </Grid>
                         </Grid>
