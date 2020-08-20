@@ -1,7 +1,5 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-// import FuseAnimate from '@fuse/core/FuseAnimate';
-import "./../App.css";
 
 import { Grid } from "@material-ui/core";
 

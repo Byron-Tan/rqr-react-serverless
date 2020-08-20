@@ -33,9 +33,9 @@ import Slider from "@material-ui/core/Slider";
 
 import clsx from "clsx";
 
-import instance from "../api/instance";
-import { authMiddleWare } from "../util/auth";
-import GoogleMaps from "../common/components/googleMaps";
+import instance from "../../api/instance";
+import { authMiddleWare } from "../../util/auth";
+import GoogleMaps from "./googleMaps";
 
 const styles = (theme) => ({
   content: {

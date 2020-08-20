@@ -10,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import IconButton from "@material-ui/core/IconButton";
 
-import "./../App.css";
 import { Grid } from "@material-ui/core";
 
 const CatInputs = (props) => {
@@ -25,33 +24,13 @@ const CatInputs = (props) => {
       marginTop: "15px",
     },
   });
-  // console.log(props)
   const classes = styles();
-
-  // const clickButton = () => {
-  //     props.addField();
-  // }
-
-  // const clickButtonConfiguration = (event, index) => {
-  //     event.preventDefault()
-  //     props.addConfiguration(index)
-  //     props.addBtnConfiguration(index)
-  // }
-
-  // const runDebug = (index) => {
-  //     props.runDebug(index)
-  // }
 
   const removeFields = (event, index) => {
     event.preventDefault();
     console.log(index);
     props.removeFields(index);
   };
-
-  // const addButtonConfiguration = (event, index, indexConfigObj) => {
-  //     event.preventDefault()
-  //     props.addBtnConfiguration(index)
-  // }
 
   const changeHandlerFieldName = (event, field_name, inde) => {
     props.setFieldName(event.target.value, field_name, inde);
@@ -62,7 +41,6 @@ const CatInputs = (props) => {
       collegeNameId = `college-Name-${idx}`,
       qualificationId = `qualification-${idx}`;
     return (
-      // <FuseAnimate animation="transition.expandIn" delay={300}>
       <div key={idx}>
         <Grid
           className={classes.marginTop15px}
@@ -132,10 +110,8 @@ const CatInputs = (props) => {
           )}
         </Grid>
       </div>
-      // </FuseAnimate >
     );
   });
 };
-// export default withStyles(styles)(CatInputs);
 
 export default CatInputs;

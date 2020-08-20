@@ -3,7 +3,6 @@ import TextField from "@material-ui/core/TextField";
 
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import IconButton from "@material-ui/core/IconButton";
-import "./../App.css";
 
 import { Grid } from "@material-ui/core";
 
