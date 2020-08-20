@@ -33,8 +33,8 @@ exports.validateSignUpData = (data) => {
   if (isEmpty(data.lastName)) errors.lastName = "Must not be empty";
   if (isEmpty(data.dateOfBirth)) errors.dateOfBirth = "Must not be empty";
   if (isEmpty(data.phoneNumber)) errors.phoneNumber = "Must not be empty";
-  if (isEmpty(data.driversLicense)) errors.driversLicense = "Must not be empty";
-  if (isEmpty(data.car)) errors.car = "Must not be empty";
+  if (!/^\d+$/.test(data.phoneNumber))
+    errors.phoneNumber = "Please Enter Valid Phone Number";
   if (isEmpty(data.password)) errors.password = "Must not be empty";
 
   return {

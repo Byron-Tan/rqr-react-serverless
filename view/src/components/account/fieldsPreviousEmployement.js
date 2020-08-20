@@ -17,7 +17,8 @@ const CatInputs = (props) => {
   };
 
   return props.fields.map((val, idx) => {
-    let dateId = `date-${idx}`,
+    let startDateId = `startDate-${idx}`,
+      endDateId = `endDate-${idx}`,
       employer = `employer-${idx}`,
       position_of_contractor = `position_of_contractor-${idx}`,
       reason_for_leaving = `reason_for_leaving-${idx}`,
@@ -25,24 +26,43 @@ const CatInputs = (props) => {
     return (
       // <FuseAnimate animation="transition.expandIn" delay={300}>
       <div key={idx}>
+        <br />
         <Grid
           container
           spacing={3}
           className="mt-3"
           className="margin-top-15px"
         >
-          <Grid item md={4} xs={12}>
+          <Grid item md={2} xs={12}>
             <TextField
               required
               fullWidth
-              name={dateId}
+              name={startDateId}
               data-id={idx}
               label="Date"
               type="date"
-              id={dateId}
+              id={startDateId}
               value={val.date}
               onChange={(e) => {
-                changeHandlerFieldName(e, "date", idx);
+                changeHandlerFieldName(e, "startDate", idx);
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item md={2} xs={12}>
+            <TextField
+              required
+              fullWidth
+              name={endDateId}
+              data-id={idx}
+              label="Date"
+              type="date"
+              id={endDateId}
+              value={val.date}
+              onChange={(e) => {
+                changeHandlerFieldName(e, "endDate", idx);
               }}
               InputLabelProps={{
                 shrink: true,

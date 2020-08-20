@@ -46,15 +46,12 @@ exports.signUpUser = (request, response) => {
     email: request.body.email,
     dateOfBirth: request.body.dateOfBirth,
     phoneNumber: request.body.phoneNumber,
-    driversLicense: request.body.driversLicense,
-    car: request.body.car,
     password: request.body.password,
-    description: request.body.description,
   };
 
   const { valid, errors } = validateSignUpData(newUser);
 
-  if (!valid) return respoonse.status(400).json(errors);
+  if (!valid) return response.status(400).json(errors);
 
   let token, userId;
   db.doc(`/users/${newUser.username}`)
@@ -84,10 +81,9 @@ exports.signUpUser = (request, response) => {
         email: newUser.email,
         dateOfBirth: newUser.dateOfBirth,
         phoneNumber: newUser.phoneNumber,
-        driversLicense: newUser.driversLicense,
-        car: newUser.car,
-        description: newUser.description,
         createdAt: new Date().toISOString(),
+        profileComplete: "false",
+        role: 1,
         userId,
       };
       return db.doc(`/users/${newUser.username}`).set(userCredentials);
@@ -184,7 +180,7 @@ exports.getUserDetails = (request, response) => {
     .then((doc) => {
       if (doc.exists) {
         userData.userCredentials = doc.data();
-        return response.json(userData);
+        return response.json(userData.userCredentials);
       }
     })
     .catch((error) => {
