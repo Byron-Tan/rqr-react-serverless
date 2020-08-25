@@ -19,7 +19,7 @@ const CatInputs = (props) => {
     return (
       // <FuseAnimate animation="transition.expandIn" delay={300}>
       <Grid container spacing={3} className="mt-3" className="margin-top-15px">
-        <Grid item md={2} xs={12}>
+        <Grid item md={4} xs={12}>
           <TextField
             required
             fullWidth
@@ -36,7 +36,7 @@ const CatInputs = (props) => {
             }}
           />
         </Grid>
-        <Grid item md={2} xs={12}>
+        <Grid item md={4} xs={12}>
           <TextField
             required
             fullWidth

@@ -20,10 +20,10 @@ import CardContent from "@material-ui/core/CardContent";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 
-import instance from "../api/instance";
+import instance from "../../api/instance";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { authMiddleWare } from "../util/auth";
+import { authMiddleWare } from "../../util/auth";
 
 const styles = (theme) => ({
   title: {

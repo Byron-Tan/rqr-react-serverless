@@ -33,7 +33,7 @@ const CatInputs = (props) => {
           className="mt-3"
           className="margin-top-15px"
         >
-          <Grid item md={2} xs={12}>
+          <Grid item md={4} xs={12}>
             <TextField
               required
               fullWidth
@@ -51,7 +51,7 @@ const CatInputs = (props) => {
               }}
             />
           </Grid>
-          <Grid item md={2} xs={12}>
+          <Grid item md={4} xs={12}>
             <TextField
               required
               fullWidth

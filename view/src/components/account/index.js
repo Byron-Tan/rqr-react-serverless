@@ -15,9 +15,6 @@ import IconButton from "@material-ui/core/IconButton";
 import FormControl from "@material-ui/core/FormControl";
 import FieldsPreviousEmployement from "./fieldsPreviousEmployement";
 import Checkbox from "@material-ui/core/Checkbox";
-import Example from "./example";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import {
   Card,
   CardActions,
@@ -33,9 +30,12 @@ import Slider from "@material-ui/core/Slider";
 
 import clsx from "clsx";
 
+import initialData from "./priorities/initial-data";
 import instance from "../../api/instance";
 import { authMiddleWare } from "../../util/auth";
 import GoogleMaps from "./googleMaps";
+
+import Priorities from "./priorities";
 
 const styles = (theme) => ({
   content: {
@@ -134,6 +134,7 @@ const materialDateInput = `${date}-${month}-${year}`; // combining to format for
 class account extends Component {
   constructor(props) {
     super(props);
+    this.UserPriorities = React.createRef();
 
     this.state = {
       firstName: "",
@@ -178,7 +179,6 @@ class account extends Component {
         },
       ],
       educationDate: "",
-      cards: [],
       employment: [
         {
           date: "",
@@ -208,7 +208,7 @@ class account extends Component {
       goals: "",
       interests: "",
       current_work_visa_type: "",
-      priorities: [],
+      priorities: initialData,
       visaExpiryDate: "",
       professionalReference: {
         fullName: "",
@@ -463,10 +463,6 @@ class account extends Component {
     });
   };
 
-  setCard = (cards) => {
-    this.setCardVal(cards);
-  };
-
   setCardVal = (cards) => {
     this.setState({
       priorities: cards,
@@ -503,6 +499,37 @@ class account extends Component {
     });
   };
 
+  mapOrder = (array, order, key) => {
+    array.sort(function (a, b) {
+      var A = a[key],
+        B = b[key];
+
+      if (order.indexOf(A) > order.indexOf(B)) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+
+    return array;
+  };
+
+  setPriorities = () => {
+    let item_array = [
+      { id: "priority-1", content: "High Earnings" },
+      { id: "priority-2", content: "Business Opportunities" },
+      { id: "priority-3", content: "Fun Environment" },
+      { id: "priority-4", content: "Fast-Paced Advancement" },
+      { id: "priority-5", content: "Challenging work" },
+      { id: "priority-6", content: "Opportunities to learn" },
+      { id: "priority-7", content: "Teamwork Environment" },
+    ];
+    let item_order = this.UserPriorities.current.state.columns.column1
+      .priorityIds;
+
+    return this.mapOrder(item_array, item_order, "id");
+  };
+
   updateFormValues = (event) => {
     const formRequest = {
       address: this.state.address,
@@ -525,7 +552,7 @@ class account extends Component {
       achievement_goals: this.state.looking_to_achieve_role,
       career_goals: this.state.goals_achieve_from_career,
       interest: this.state.hobbies,
-      priorities: this.state.priorities,
+      priorities: this.setPriorities(),
       profileComplete: "true",
       declaration: this.state.declaration,
       declaration_date: this.state.declaration_date,
@@ -550,6 +577,45 @@ class account extends Component {
           buttonLoading: false,
         });
       });
+  };
+
+  onDragEnd = (result) => {
+    // See example result object above
+    const { destination, source, draggableId } = result;
+
+    // if destination is null return to original order
+    if (!destination) {
+      return;
+    }
+
+    // If these two things are true,
+    // then the user dropped the item back into the position that is started, so we don't need to do anything.
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const column = this.state.priorities.columns[source.droppableId];
+    const newPriorityIds = Array.from(column.priorityIds);
+    newPriorityIds.splice(source.index, 1);
+    newPriorityIds.splice(destination.index, 0, draggableId);
+
+    const newColumn = {
+      ...column,
+      priorityIds: newPriorityIds,
+    };
+
+    const newState = {
+      columns: {
+        ...this.state.priorities.columns,
+        [newColumn.id]: newColumn,
+      },
+    };
+
+    this.setState(newState);
+    return newState;
   };
 
   render() {
@@ -1146,11 +1212,8 @@ class account extends Component {
                         </Typography>
                         <Divider />
                         <br />
-                        <div className="margin-top-15px">
-                          <DndProvider backend={HTML5Backend}>
-                            <Example setCardObj={this.setCard} />
-                          </DndProvider>
-                        </div>
+                        {/* Here*/}
+                        <Priorities ref={this.UserPriorities} />
                       </CardContent>
                     </Card>
                   </div>

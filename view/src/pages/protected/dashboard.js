@@ -3,7 +3,8 @@ import instance from "../../api/instance";
 
 //components
 import Account from "../../components/account";
-import Goal from "../../components/goal";
+import Goal from "../../components/goals";
+import Applicants from "../../components/applicant";
 
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -26,7 +27,7 @@ import Card from "@material-ui/core/Card";
 
 import { authMiddleWare } from "../../util/auth";
 import { CardContent } from "@material-ui/core";
-import ThankYou from "../../components/registrationty";
+import ThankYou from "../../components/cards/registrationty";
 
 const drawerWidth = 240;
 
@@ -204,6 +205,8 @@ class dashboard extends Component {
               <Account />
             ) : this.state.render === "goals" ? (
               <Goal />
+            ) : this.state.render === "applicants" ? (
+              <Applicants />
             ) : null}
           </div>
           {this.state.profileComplete === "true" ? (
