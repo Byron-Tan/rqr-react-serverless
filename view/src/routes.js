@@ -22,7 +22,6 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
-import ExitToApp from "@material-ui/icons/ExitToApp";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
@@ -33,11 +32,11 @@ import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 // core components/views for RTL layout
 
+// TODO Add contional export based on user role.
 const dashboardRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
     layout: "/admin",
@@ -85,7 +84,5 @@ const dashboardRoutes = [
     layout: "/admin",
   },
 ];
-
-//TODO change to conditional dashboard routes, change up grade to pro to logout function
 
 export default dashboardRoutes;
