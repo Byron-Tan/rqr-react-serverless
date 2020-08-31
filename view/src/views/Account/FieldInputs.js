@@ -43,7 +43,6 @@ const CatInputs = (props) => {
     return (
       <div key={idx}>
         <Grid
-          className={classes.marginTop15px}
           container
           spacing={3}
           className="margin-top-15px align-item-center"

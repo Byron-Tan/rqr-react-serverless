@@ -81,7 +81,6 @@ class Priorities extends Component {
             <Column key={column.id} column={column} priorities={priorities} />
           );
         })}
-        ;
       </DragDropContext>
     );
   }

@@ -105,18 +105,6 @@ const marks = [
   { value: 100, label: "100" },
 ];
 
-function formatDate() {
-  var d = new Date(),
-    month = "" + (d.getMonth() + 1),
-    day = "" + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return [year, month, day].join("-");
-}
-
 const dateNow = new Date(); // Creating a new date object with the current date and time
 const year = dateNow.getFullYear(); // Getting current year from the created Date object
 const monthWithOffset = dateNow.getUTCMonth() + 1; // January is 0 by default in JS. Offsetting +1 to fix date for calendar.
@@ -222,7 +210,6 @@ class account extends Component {
         email: "",
         relationship: "",
       },
-      declaration: "",
       uiLoading: true,
       buttonLoading: false,
       imageError: "",
@@ -1212,7 +1199,6 @@ class account extends Component {
                         </Typography>
                         <Divider />
                         <br />
-                        {/* Here*/}
                         <Priorities ref={this.UserPriorities} />
                       </CardContent>
                     </Card>
@@ -1220,12 +1206,7 @@ class account extends Component {
                   <div md={12} xs={12} className={classes.section2}>
                     <Card className={classes.width100} variant="outlined">
                       <CardContent>
-                        <Grid
-                          container
-                          spacing={3}
-                          className="mt-3"
-                          className="margin-top-15px"
-                        >
+                        <Grid container spacing={3} className="mt-15px">
                           <Grid item md={6} xs={12}>
                             <FormControlLabel
                               control={

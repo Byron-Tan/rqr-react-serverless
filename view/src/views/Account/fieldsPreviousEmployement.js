@@ -27,12 +27,7 @@ const CatInputs = (props) => {
       // <FuseAnimate animation="transition.expandIn" delay={300}>
       <div key={idx}>
         <br />
-        <Grid
-          container
-          spacing={3}
-          className="mt-3"
-          className="margin-top-15px"
-        >
+        <Grid container spacing={3} className="mt-15px">
           <Grid item md={4} xs={12}>
             <TextField
               required

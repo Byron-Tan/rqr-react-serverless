@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GoogleMaps(props) {
-  const { setHandler } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
@@ -93,10 +92,6 @@ export default function GoogleMaps(props) {
     };
   }, [value, inputValue, fetch]);
 
-  useEffect(() => {
-    setHandler(inputValue);
-  }, [inputValue]);
-
   return (
     <Autocomplete
       id="google-map-demo"
@@ -123,7 +118,6 @@ export default function GoogleMaps(props) {
           margin="dense"
           {...params}
           label="Add An Address"
-          fullWidth
         />
       )}
       renderOption={(option) => {
