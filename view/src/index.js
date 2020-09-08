@@ -17,26 +17,19 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
-
-// core components
-import Admin from "layouts/Admin.js";
-import Login from "views/Login.js";
-import SignUp from "views/Signup.js";
-
+import App from "./App";
+import { Provider } from "react-redux";
 import "assets/css/material-dashboard-react.css?v=1.9.0";
+import configureStore, { history } from "./_helpers/configureStore";
+import { ConnectedRouter } from "connected-react-router";
 
-const hist = createBrowserHistory();
+const store = configureStore();
 
 ReactDOM.render(
-  <Router history={hist}>
-    <Switch>
-      <Route path="/users" component={Admin} />
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={SignUp} />
-      <Redirect from="/" to="/users/dashboard" />
-    </Switch>
-  </Router>,
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>,
   document.getElementById("root")
 );
