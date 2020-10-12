@@ -2,14 +2,27 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { routerMiddleware } from "connected-react-router";
 import rootReducer from "./rootReducer";
 import thunk from "redux-thunk";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { createBrowserHistory } from "history";
 
 export const history = createBrowserHistory();
 
-export default function configureStore(preloadedState) {
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["user"],
+};
+
+const storeConfig = {
+  blcklist: ["applicants"],
+};
+
+const reducers = persistReducer(persistConfig, rootReducer(history));
+
+export default () => {
   const store = createStore(
-    rootReducer(history), // root reducer with router state
-    preloadedState,
+    reducers, // root reducer with router state
     compose(
       applyMiddleware(
         routerMiddleware(history), // for dispatching history actions
@@ -17,5 +30,6 @@ export default function configureStore(preloadedState) {
       )
     )
   );
-  return store;
-}
+  const persistor = persistStore(store, storeConfig);
+  return { persistor, store };
+};

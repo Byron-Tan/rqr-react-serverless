@@ -4,6 +4,18 @@ object-assign
 @license MIT
 */
 
+/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+
+/*!
+ * perfect-scrollbar v1.5.0
+ * Copyright 2020 Hyunje Jun, MDBootstrap and Contributors
+ * Licensed under MIT
+ */
+
 /**
  * A better abstraction over CSS.
  *
@@ -50,7 +62,7 @@ object-assign
 
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.16.1-lts
+ * @version 1.16.1
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *

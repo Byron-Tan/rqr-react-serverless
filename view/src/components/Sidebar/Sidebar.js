@@ -19,7 +19,11 @@ import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 const useStyles = makeStyles(styles);
 
+import { useDispatch } from "react-redux";
+import { logout } from "../../_features/authSlice";
+
 export default function Sidebar(props) {
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   // verifies if routeName is the one active (in browser input)
@@ -28,7 +32,7 @@ export default function Sidebar(props) {
   }
 
   const handleLogout = () => {
-    return alert("hello world");
+    dispatch(logout());
   };
 
   const { color, logo, image, logoText, routes } = props;
@@ -98,7 +102,7 @@ export default function Sidebar(props) {
   var brand = (
     <div className={classes.logo}>
       <a
-        href="https://www.creative-tim.com?ref=mdr-sidebar"
+        href="https://www.rqr.com.au"
         className={classNames(classes.logoLink, {
           [classes.logoLinkRTL]: props.rtlActive,
         })}

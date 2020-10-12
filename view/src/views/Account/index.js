@@ -28,6 +28,9 @@ import {
 import Slider from "@material-ui/core/Slider";
 // import { makeStyles } from '@material-ui/core/styles';
 
+import { profileComplete } from "../../_features/authSlice/index";
+import { connect } from "react-redux";
+
 import clsx from "clsx";
 
 import initialData from "./priorities/initial-data";
@@ -523,6 +526,7 @@ class account extends Component {
       startDate: this.state.available_start_date,
       funnel: this.state.howDidYouHearAboutUs,
       vehicleOwner: this.state.vehicle_access,
+      criminalConvictions: this.state.criminalConvictions,
       resident: this.state.australian_resident,
       currentWorkVisa: this.state.current_work_visa,
       currentVisaType: this.state.current_work_visa_type,
@@ -564,6 +568,8 @@ class account extends Component {
           buttonLoading: false,
         });
       });
+    this.props.profileComplete();
+    this.props.history.push("/");
   };
 
   onDragEnd = (result) => {
@@ -1253,4 +1259,10 @@ class account extends Component {
   }
 }
 
-export default withStyles(styles)(account);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    profileComplete: () => dispatch(profileComplete()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(account));

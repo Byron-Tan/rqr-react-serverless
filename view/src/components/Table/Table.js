@@ -9,7 +9,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
-
+import ApplicantDialog from "../Dialog/ApplicantDialog";
 const useStyles = makeStyles(styles);
 
 export default function CustomTable(props) {
@@ -45,6 +45,9 @@ export default function CustomTable(props) {
                     </TableCell>
                   );
                 })}
+                <TableCell>
+                  <ApplicantDialog data={prop} head={tableHead} />
+                </TableCell>
               </TableRow>
             );
           })}
@@ -55,7 +58,7 @@ export default function CustomTable(props) {
 }
 
 CustomTable.defaultProps = {
-  tableHeaderColor: "gray"
+  tableHeaderColor: "gray",
 };
 
 CustomTable.propTypes = {
@@ -66,8 +69,8 @@ CustomTable.propTypes = {
     "success",
     "info",
     "rose",
-    "gray"
+    "gray",
   ]),
   tableHead: PropTypes.arrayOf(PropTypes.string),
-  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+  tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
 };

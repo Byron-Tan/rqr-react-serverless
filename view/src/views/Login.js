@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,7 +12,9 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Container from "@material-ui/core/Container";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import instance from "../api/instance";
+// redux logic
+import { login } from "../_features/authSlice/index";
+import { connect } from "react-redux";
 
 const styles = (theme) => ({
   paper: {
@@ -41,15 +44,14 @@ const styles = (theme) => ({
   },
 });
 
-class login extends Component {
+class signIn extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: false,
       email: "",
       password: "",
-      errors: [],
-      loading: false,
     };
   }
 
@@ -62,38 +64,28 @@ class login extends Component {
   }
 
   handleChange = (event) => {
+    this.setState.loading = true;
     this.setState({
       [event.target.name]: event.target.value,
     });
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.setState({ loading: true });
-    const userData = {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({
+      loading: true,
+    });
+    const credentials = {
       email: this.state.email,
       password: this.state.password,
     };
-    instance
-      .post("/login", userData)
-      .then((response) => {
-        localStorage.setItem("AuthToken", `Bearer ${response.data.token}`);
-        this.setState({
-          loading: false,
-        });
-        this.props.history.push("/");
-      })
-      .catch((error) => {
-        this.setState({
-          errors: error.response.data,
-          loading: false,
-        });
-      });
+    this.props.login(credentials);
   };
 
   render() {
     const { classes } = this.props;
-    const { errors, loading } = this.state;
+    const { errors } = this.props;
+    const { loading } = this.state;
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -147,10 +139,17 @@ class login extends Component {
                 <CircularProgress size={30} className={classes.progess} />
               )}
             </Button>
-            <Grid container>
+            <Grid container justify="flex-end">
               <Grid item>
                 <Link href="signup" variant="body2">
                   {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link href="recover_password" variant="body2">
+                  {"Forgot Password"}
                 </Link>
               </Grid>
             </Grid>
@@ -166,4 +165,19 @@ class login extends Component {
   }
 }
 
-export default withStyles(styles)(login);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (credentials) => dispatch(login(credentials)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    errors: state.user.errors,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(signIn));

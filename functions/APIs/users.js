@@ -206,58 +206,29 @@ exports.updateUserDetails = (request, response) => {
     });
 };
 
-//creating users csv export
-exports.userCSV = (request, response) => {
-  const fs = require("fs-extra");
-  const gcs = require("@google-cloud/storage")();
-  const path = require("path");
-  const os = require("os");
-  const functions = require("firebase-functions");
-  const json2csv = require("json2csv");
+exports.recoverUserPassword = (request, response) => {
+  const email = request.body.email;
+  firebase
+    .auth()
+    .sendPasswordResetEmail(email)
+    .then()
+    .catch(function (error) {
+      console.error(error);
+    });
+};
 
-  functions.firestore
-    .document("applicationReports/{reportId}")
-    .onCreate((event) => {
-      // Step 1. set main variables
-      const applicationReportId = event.params.applicationReportId;
-      const fileName = `applicantsReports/${applicationReportId}.csv`;
-      const tempFilePath = path.join(os.tmpdir(), filename);
-
-      // Reference report in Firestore
-      const reportRef = db
-        .collection("applicationReports")
-        .doc(applicationReportId);
-
-      // Reference Storage Bucket
-      const storage = gsc.bucket("rqr-serverless-d6272.appspot.com");
-
-      // Step 2. Query Collection
-      return db
-        .collection("users")
-        .get()
-        .then((querySnapshot) => {
-          /// Step 3. Creates CSV file from with users collection
-          const users = [];
-
-          // create array of order data
-          querySnapshot.forEach((doc) => {
-            users.push(doc.data());
-          });
-
-          return json2csv({ data: users });
-        })
-        .then((csv) => {
-          //Step 4. Write the file to cloud function tmp storage
-          return fs.outputFile(tempFilePath, csv);
-        })
-        .then(() => {
-          //Step 5. Upload the file to Firebase cloud storage
-          return storage.upload(tempFilePath, { destination: fileName });
-        })
-        .then((file) => {
-          // Step 6. Update status to complete in Firestore
-          return reportRef.update({ status: "complete" });
-        })
-        .catch((err) => console.error(error));
+exports.getAllUserDetails = (request, response) => {
+  let allUserDetails = [];
+  db.collection("users")
+    .where("profileComplete", "==", "true")
+    .get()
+    .then(function (querySnapShot) {
+      querySnapShot.forEach(function (doc) {
+        allUserDetails.push(doc.data());
+      });
+      return response.status(200).json(allUserDetails);
+    })
+    .catch(function (error) {
+      console.error("Error getting documents:", error);
     });
 };

@@ -11,7 +11,8 @@ import Container from "@material-ui/core/Container";
 import withStyles from "@material-ui/core/styles/withStyles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import instance from "../api/instance";
+import { signUp } from "../_features/authSlice/index";
+import { connect } from "react-redux";
 
 const styles = (theme) => ({
   paper: {
@@ -36,11 +37,12 @@ const styles = (theme) => ({
   },
 });
 
-class signup extends Component {
+class SignUpComponent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: false,
       username: "",
       firstName: "",
       lastName: "",
@@ -48,15 +50,13 @@ class signup extends Component {
       dateOfBirth: "",
       phoneNumber: "",
       password: "",
-      errors: [],
-      loading: false,
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
+  componenetDidUpdate(prevProps) {
+    if (prevProps.UI.errors) {
       this.setState({
-        errors: nextProps.UI.errors,
+        errors: prevProps.UI.errors,
       });
     }
   }
@@ -67,9 +67,11 @@ class signup extends Component {
     });
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.setState({ loading: true });
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({
+      loading: true,
+    });
     const newUserData = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -79,27 +81,13 @@ class signup extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-    instance
-      .post("/signup", newUserData)
-      .then((response) => {
-        localStorage.setItem("AuthToken", `Bearer ${response.data.token}`);
-        this.setState({
-          loading: false,
-        });
-        this.props.history.push("/");
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({
-          errors: error.response.data,
-          loading: false,
-        });
-      });
+    this.props.signup(newUserData);
   };
 
   render() {
     const { classes } = this.props;
-    const { errors, loading } = this.state;
+    const { errors } = this.props;
+    const { loading } = this.state;
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -239,6 +227,13 @@ class signup extends Component {
                 </Link>
               </Grid>
             </Grid>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link href="recover_password" variant="body2">
+                  {"Forgot Password"}
+                </Link>
+              </Grid>
+            </Grid>
           </form>
         </div>
       </Container>
@@ -246,4 +241,19 @@ class signup extends Component {
   }
 }
 
-export default withStyles(styles)(signup);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signup: (newUserData) => dispatch(signUp(newUserData)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    errors: state.user.errors,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(SignUpComponent));

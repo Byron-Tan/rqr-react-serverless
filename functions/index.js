@@ -19,12 +19,16 @@ const {
   uploadProfilePhoto,
   getUserDetails,
   updateUserDetails,
+  recoverUserPassword,
+  getAllUserDetails,
 } = require("./APIs/users");
 
 app.post("/login", loginUser);
 app.post("/signup", signUpUser);
+app.post("/recover_password", recoverUserPassword);
 app.post("/user/image", auth, uploadProfilePhoto);
 app.get("/user", auth, getUserDetails);
+app.get("/allusers", auth, getAllUserDetails);
 app.post("/user", auth, updateUserDetails);
 
 //Goal Setting

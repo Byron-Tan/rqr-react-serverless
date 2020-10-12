@@ -18,15 +18,19 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
-import Notifications from "@material-ui/icons/Notifications";
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
-import NotificationsPage from "views/Notifications/Notifications.js";
 import Account from "views/Account";
-// core components/views for RTL layout
+import Applicants from "views/Applicants";
+
+//core components/view for User Layout
+import Timesheet from "views/User_Functions/Timesheets";
+import LOA from "views/User_Functions/LOA_Tracker";
+import Goals from "views/User_Functions/Goals";
 
 // TODO Turn this into an array of arrays containing user dashboard and admin dashboard
-const dashboardRoutes = [
+const applicantRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -41,13 +45,68 @@ const dashboardRoutes = [
     component: Account,
     layout: "/users",
   },
+];
+
+const userRoutes = [
   {
-    path: "/notifications",
-    name: "Notifications",
-    icon: Notifications,
-    component: NotificationsPage,
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: Dashboard,
+    component: DashboardPage,
+    layout: "/users",
+  },
+  {
+    path: "/loa",
+    name: "LOA Tracker",
+    icon: Dashboard,
+    component: LOA,
+    layout: "/users",
+  },
+  {
+    path: "/user_roster",
+    name: "Timesheets",
+    icon: Dashboard,
+    component: Timesheet,
+    layout: "/users",
+  },
+  {
+    path: "/goals",
+    name: "Goals",
+    icon: Dashboard,
+    component: Goals,
+    layout: "/users",
+  },
+  {
+    path: "/user_profile",
+    name: "User Profile",
+    icon: Person,
+    component: Account,
     layout: "/users",
   },
 ];
 
-export default dashboardRoutes;
+const adminRoutes = [
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: Dashboard,
+    component: DashboardPage,
+    layout: "/users",
+  },
+  {
+    path: "/applicants",
+    name: "Applicants",
+    icon: GroupAddIcon,
+    component: Applicants,
+    layout: "/users",
+  },
+  {
+    path: "/user_profile",
+    name: "User Profile",
+    icon: Person,
+    component: Account,
+    layout: "/users",
+  },
+];
+
+export { applicantRoutes, userRoutes, adminRoutes };

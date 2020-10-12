@@ -18,18 +18,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { Provider } from "react-redux";
+import { Provider, ReactReduxContext } from "react-redux";
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 import configureStore, { history } from "./_helpers/configureStore";
 import { ConnectedRouter } from "connected-react-router";
+import { PersistGate } from "redux-persist/integration/react";
 
-const store = configureStore();
+const { persistor, store } = configureStore();
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
+  <Provider store={store} context={ReactReduxContext}>
+    <PersistGate loading={null} persistor={persistor}>
+      <ConnectedRouter history={history} context={ReactReduxContext}>
+        <App />
+      </ConnectedRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 );

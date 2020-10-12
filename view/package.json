@@ -13,6 +13,7 @@
     "chartist": "0.10.1",
     "classnames": "2.2.6",
     "connected-react-router": "^6.8.0",
+    "date-fns": "^2.16.1",
     "history": "4.10.1",
     "perfect-scrollbar": "1.5.0",
     "prop-types": "15.7.2",
@@ -27,6 +28,7 @@
     "react-swipeable-views": "0.13.9",
     "redux": "^4.0.5",
     "redux-firestore": "^0.13.0",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.1.1"
   },
   "scripts": {
@@ -50,7 +52,6 @@
   "bugs": {
     "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
   },
-  "homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
   "optionalDependencies": {
     "@types/googlemaps": "3.39.6",
     "@types/markerclustererplus": "2.1.33",
