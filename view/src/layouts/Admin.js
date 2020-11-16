@@ -78,8 +78,6 @@ export default function Admin({ ...rest }) {
       ? (routes = userRoutes)
       : push("/login");
 
-    console.log(routes);
-
     const switchRoutes = (
       <Switch>
         {routes.map((prop, key) => {

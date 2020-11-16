@@ -30,7 +30,6 @@ export default function Applicants() {
   const rowFunction = (data) => {
     let row = [];
     _.forEach(data, function (user) {
-      console.log(user);
       console.log(
         "hello world",
         user.firstName,

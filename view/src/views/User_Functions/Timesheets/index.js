@@ -59,7 +59,6 @@ export default function Timesheets() {
     endOfWeek(new Date(), { weekStartsOn: 1 }),
     "dd/MM/yyyy"
   );
-  console.log(typeof currentWeekStart);
   if (loading === true) {
     return (
       <main className={classes.content}>
