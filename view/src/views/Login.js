@@ -80,7 +80,8 @@ class signIn extends Component {
       password: this.state.password,
     };
     this.props.login(credentials);
-    this.props.errors != [] ? this.setState({loading: false})
+    if (this.props.errors != []) {
+    this.setState({loading: false})};
   };
 
   render() {
